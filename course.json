@@ -1,0 +1,149 @@
+{
+  "title": "Tedesco in 60 giorni",
+  "phases": [
+    {
+      "num": 1, "title": "Fondamenta", "accent": "#D7263D", "accentName": "Rosso",
+      "subtitle": "Suoni, saluti e i primi mattoni della lingua.",
+      "chips": ["Pronuncia","Saluti","Numeri 0–100","der / die / das","Presentarsi"],
+      "days": [
+        {"n":1,"title":"Alfabeto e suoni speciali","lead":"Il tedesco si legge quasi sempre come si scrive: imparate le poche eccezioni.","points":["Umlaut: ä (è aperta), ö (e arrotondata), ü (i con labbra a u).","ß = s sorda. w = v. v = f. z = ts. j = i.","Gruppi: sch = sc di scena; ei = ai; ie = i lunga."],"ex":[["Wasser","acqua (w = v)"],["Zeit","tempo (z = ts)"],["schön","bello"]],"task":"Leggi ad alta voce l'alfabeto tedesco una volta."},
+        {"n":2,"title":"Saluti e cortesia","lead":"Le frasi che userai ogni singolo giorno.","points":["Saluti per fascia oraria + il neutro Hallo.","Le 3 parole magiche: per favore, grazie, scusa."],"ex":[["Guten Morgen / Guten Tag / Guten Abend","Buongiorno / Buon dì / Buonasera"],["Tschüss / Auf Wiedersehen","Ciao / Arrivederci"],["Bitte / Danke / Entschuldigung","Per favore / Grazie / Scusi"]],"task":"Saluta immaginando mattina, pomeriggio e sera."},
+        {"n":3,"title":"Presentarsi (du e Sie)","lead":"In tedesco esistono il «tu» (du) e il «Lei» formale (Sie).","points":["Ich heiße… = Mi chiamo… · Ich bin… = Io sono…","Informale: Wie heißt du? · Formale: Wie heißen Sie?"],"ex":[["Ich heiße Roberto.","Mi chiamo Roberto."],["Wie heißt du?","Come ti chiami?"],["Freut mich!","Piacere!"]],"task":"Dì il tuo nome in tedesco, prima informale poi formale."},
+        {"n":4,"title":"Da dove vieni, dove abiti","lead":"Provenienza e residenza con due verbi.","points":["Ich komme aus… = Vengo da… · Ich wohne in… = Abito a…","Domanda: Woher kommst du? = Da dove vieni?"],"ex":[["Ich komme aus Italien.","Vengo dall'Italia."],["Ich wohne in Bari.","Abito a Bari."],["Woher kommst du?","Da dove vieni?"]],"task":"Scrivi una frase: vengo da… e abito a…"},
+        {"n":5,"title":"Numeri 0–20","lead":"La base di prezzi, orari e telefoni.","points":["0–12 a memoria; da 13 a 19 si aggiunge -zehn.","Attenzione a sechzehn (16) e siebzehn (17)."],"ex":[["null, eins, zwei, drei, vier, fünf","0–5"],["sechs, sieben, acht, neun, zehn","6–10"],["dreizehn … neunzehn","13–19 (+ zehn)"]],"task":"Conta a voce da 0 a 20."},
+        {"n":6,"title":"Numeri 21–100","lead":"Prima l'unità, poi la decina!","points":["21 = einundzwanzig (uno-e-venti).","Decine: zwanzig, dreißig, vierzig … hundert."],"ex":[["einundzwanzig","21"],["zweiundvierzig","42"],["hundert","100"]],"task":"Dì la tua età e un numero di telefono inventato."},
+        {"n":7,"title":"I generi: der / die / das","lead":"Impara il nome SEMPRE con il suo articolo.","points":["der = maschile, die = femminile, das = neutro.","-ung/-heit/-keit → die; -chen → das."],"ex":[["der Mann","l'uomo (m)"],["die Frau","la donna (f)"],["das Kind","il bambino (neutro)"]],"task":"Memorizza 3 nomi col loro articolo."},
+        {"n":8,"title":"ein / eine + plurale","lead":"L'articolo indeterminativo e un primo plurale.","points":["ein per der/das, eine per die.","Al plurale l'articolo è sempre die; il nome cambia."],"ex":[["ein Mann / eine Frau / ein Kind","un uomo / una donna / un bambino"],["die Kinder","i bambini (plurale)"]],"task":"Trasforma 3 nomi da der/die/das a ein/eine."},
+        {"n":9,"title":"Giorni e mesi","lead":"Tutti maschili (der) e simili all'italiano.","points":["Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag, Sonntag.","Januar, Februar, März, April, Mai, Juni…"],"ex":[["Heute ist Montag.","Oggi è lunedì."],["Im Juli","a luglio"]],"task":"Dì che giorno è oggi in tedesco."},
+        {"n":10,"title":"Checkpoint Fase 1","lead":"Mini-presentazione completa: rimetti insieme tutto.","points":["Obiettivo: salutare, dire nome, provenienza, residenza, età."],"ex":[["Hallo! Ich heiße Roberto. Ich komme aus Italien und wohne in Bari.","Ciao! Mi chiamo Roberto. Vengo dall'Italia e abito a Bari."]],"task":"Registrati mentre ti presenti per 30 secondi."}
+      ],
+      "quiz": [
+        {"q":"Come si dice «Buongiorno» (di mattina)?","opts":["Gute Nacht","Guten Morgen","Guten Abend","Tschüss"],"a":1,"why":"«Guten Morgen» è il saluto del mattino."},
+        {"q":"Quale articolo è femminile?","opts":["der","die","das","ein"],"a":1,"why":"die = femminile; der = maschile; das = neutro."},
+        {"q":"La lettera «ß» si pronuncia come…","opts":["una z (ts)","una s sorda (ss)","una sc","una v"],"a":1,"why":"ß suona come una doppia s sorda."},
+        {"q":"Come si scrive 21?","opts":["zwanzigeins","einundzwanzig","zwanzigundein","zweiundzwanzig"],"a":1,"why":"Prima l'unità, poi la decina."},
+        {"q":"«Ich komme aus Italien» significa…","opts":["Vado in Italia","Vengo dall'Italia","Abito in Italia","Sono Italia"],"a":1,"why":"kommen aus = venire da."}
+      ]
+    },
+    {
+      "num": 2, "title": "Verbi e vita quotidiana", "accent": "#1B5299", "accentName": "Blu",
+      "subtitle": "Costruisci le tue prime frasi e fai domande.",
+      "chips": ["Pronomi","Presente","sein / haben","Verbo in 2ª","Domande"],
+      "days": [
+        {"n":11,"title":"I pronomi personali","lead":"Chi compie l'azione.","points":["ich, du, er/sie/es, wir, ihr, sie/Sie."],"ex":[["ich, du, er, sie, es","io, tu, lui, lei, esso"],["wir, ihr, sie","noi, voi, loro"]],"task":"Ripeti i 6 pronomi a memoria, in ordine."},
+        {"n":12,"title":"Verbi regolari al presente","lead":"Togli -en dall'infinito e aggiungi le desinenze.","points":["machen: ich mache, du machst, er macht, wir machen, ihr macht, sie machen.","Stessa regola per wohnen, lernen, spielen."],"ex":[["Ich lerne Deutsch.","Imparo il tedesco."],["Wir spielen Fußball.","Giochiamo a calcio."]],"task":"Coniuga «wohnen» a tutte e 6 le persone."},
+        {"n":13,"title":"sein (essere)","lead":"Irregolare ma indispensabile.","points":["ich bin, du bist, er ist, wir sind, ihr seid, sie sind."],"ex":[["Ich bin müde.","Sono stanco."],["Sie ist Lehrerin.","Lei è insegnante."]],"task":"Fai 3 frasi con «sein»."},
+        {"n":14,"title":"haben (avere)","lead":"L'altro verbo che userai ovunque.","points":["ich habe, du hast, er hat, wir haben, ihr habt, sie haben."],"ex":[["Ich habe Zeit.","Ho tempo."],["Hast du ein Auto?","Hai una macchina?"]],"task":"Fai 3 frasi con «haben»."},
+        {"n":15,"title":"Il verbo in seconda posizione","lead":"La regola d'oro della frase tedesca.","points":["In una frase affermativa il verbo coniugato è sempre il 2º elemento.","Puoi mettere altro all'inizio, ma il verbo resta secondo."],"ex":[["Ich lerne heute Deutsch.","Imparo il tedesco oggi."],["Heute lerne ich Deutsch.","Oggi imparo il tedesco."]],"task":"Sposta «heute» all'inizio e correggi l'ordine."},
+        {"n":16,"title":"Fare domande","lead":"Due modi: sì/no e domande aperte.","points":["Sì/No: verbo in prima posizione (Kommst du?).","W: Wer, Was, Wo, Wann, Wie, Warum."],"ex":[["Wo wohnst du?","Dove abiti?"],["Spielst du Tennis?","Giochi a tennis?"]],"task":"Scrivi una domanda sì/no e una con «Wo»."},
+        {"n":17,"title":"Vocabolario: famiglia","lead":"Le persone più vicine.","points":["Memorizza con l'articolo."],"ex":[["die Mutter / der Vater","la madre / il padre"],["die Schwester / der Bruder","la sorella / il fratello"],["die Eltern / die Kinder","i genitori / i figli"]],"task":"Descrivi la tua famiglia con 2 frasi."},
+        {"n":18,"title":"Vocabolario: cibo e bevande","lead":"Per bar e supermercato.","points":[],"ex":[["das Wasser / der Kaffee","l'acqua / il caffè"],["das Brot / der Käse","il pane / il formaggio"],["der Apfel / das Bier","la mela / la birra"]],"task":"Ordina mentalmente una colazione in tedesco."},
+        {"n":19,"title":"Vocabolario: casa e lavoro","lead":"Gli ambienti di ogni giorno.","points":[],"ex":[["das Haus / die Wohnung","la casa / l'appartamento"],["die Arbeit / das Büro","il lavoro / l'ufficio"],["der Computer / das Handy","il computer / il cellulare"]],"task":"Dì dove lavori e con cosa."},
+        {"n":20,"title":"Checkpoint Fase 2","lead":"Frasi e domande quotidiane senza esitare.","points":["Obiettivo: presentarti con verbi, parlare di famiglia, fare 2 domande."],"ex":[["Ich habe eine Schwester. Sie wohnt in Rom. Wo wohnst du?","Ho una sorella. Abita a Roma. Tu dove abiti?"]],"task":"Componi 5 frasi e poi fai il quiz."}
+      ],
+      "quiz": [
+        {"q":"Completa: «du ____» (machen)","opts":["mache","machst","macht","machen"],"a":1,"why":"Con «du» la desinenza è -st."},
+        {"q":"«Io sono» si dice…","opts":["ich bin","ich bist","ich ist","ich sind"],"a":0,"why":"sein → ich bin."},
+        {"q":"In una frase affermativa il verbo va in…","opts":["1ª posizione","2ª posizione","ultima posizione","posizione libera"],"a":1,"why":"Verbo sempre al 2º posto."},
+        {"q":"Completa: «er ____ ein Auto» (haben)","opts":["habe","hast","hat","haben"],"a":2,"why":"haben → er hat."},
+        {"q":"«Wo wohnst du?» chiede…","opts":["chi","cosa","dove","quando"],"a":2,"why":"Wo = dove."}
+      ]
+    },
+    {
+      "num": 3, "title": "Nominativo e Accusativo", "accent": "#C8860A", "accentName": "Ocra",
+      "subtitle": "Come e perché cambiano gli articoli.",
+      "chips": ["Nominativo","Accusativo","Negazione","Verbi irregolari","Acquisti"],
+      "days": [
+        {"n":21,"title":"Cos'è un «caso»","lead":"Il caso indica il ruolo della parola nella frase.","points":["Nominativo = chi compie l'azione → der/die/das restano.","Si chiede: Wer? / Was?"],"ex":[["Der Mann liest.","L'uomo legge."]],"task":"Trova il soggetto in 2 frasi italiane."},
+        {"n":22,"title":"Accusativo: l'oggetto diretto","lead":"Cambia solo il maschile.","points":["Oggetto diretto → der diventa den; die/das invariati.","Si chiede: Wen? / Was?"],"ex":[["Ich sehe den Mann.","Vedo l'uomo. (der→den)"],["Ich sehe die Frau / das Kind.","Vedo la donna / il bambino."]],"task":"Metti «der Hund» come oggetto: «Ich sehe ___ Hund»."},
+        {"n":23,"title":"ein → einen all'accusativo","lead":"Anche l'indeterminativo cambia solo al maschile.","points":["ein → einen (m); eine (f) ed ein (n) restano."],"ex":[["Ich habe einen Bruder.","Ho un fratello. (m)"],["Ich habe eine Schwester.","Ho una sorella. (f)"]],"task":"Crea 2 frasi: «Ich habe einen / eine …»."},
+        {"n":24,"title":"Negare con nicht","lead":"nicht nega verbi, aggettivi e frasi intere.","points":["nicht va di solito alla fine o prima della parola negata."],"ex":[["Ich arbeite nicht.","Non lavoro."],["Das ist nicht gut.","Non va bene."]],"task":"Nega 2 frasi che hai già scritto."},
+        {"n":25,"title":"Negare con kein","lead":"Per negare un nome si usa kein.","points":["kein (m/n), keine (f e plurale); accusativo m → keinen."],"ex":[["Ich habe kein Auto.","Non ho un'auto."],["Ich habe keine Zeit.","Non ho tempo."]],"task":"Trasforma «Ich habe einen Bruder» in negativo."},
+        {"n":26,"title":"Verbi irregolari con cambio vocale","lead":"Cambiano vocale con du ed er/sie/es.","points":["fahren→du fährst; essen→du isst; sehen→du siehst; lesen→du liest; sprechen→du sprichst."],"ex":[["Du isst Pizza.","Mangi la pizza."],["Er spricht Deutsch.","Lui parla tedesco."]],"task":"Coniuga «essen» con ich/du/er."},
+        {"n":27,"title":"Vocabolario: acquisti","lead":"Sopravvivere in un negozio.","points":[],"ex":[["Was kostet das?","Quanto costa?"],["Ich möchte … kaufen.","Vorrei comprare…"],["der Markt / das Geschäft","il mercato / il negozio"]],"task":"Chiedi il prezzo di 2 oggetti."},
+        {"n":28,"title":"Vocabolario: colori","lead":"Aggettivi utilissimi.","points":[],"ex":[["rot / blau / grün","rosso / blu / verde"],["gelb / schwarz / weiß","giallo / nero / bianco"]],"task":"Dì il colore di 3 oggetti intorno a te."},
+        {"n":29,"title":"Vocabolario: oggetti quotidiani","lead":"Cose che nomini di continuo.","points":[],"ex":[["der Tisch / der Stuhl","il tavolo / la sedia"],["das Buch / der Schlüssel","il libro / la chiave"],["die Tasche / die Uhr","la borsa / l'orologio"]],"task":"Costruisci «Ich sehe einen/eine/ein …» con 3 oggetti."},
+        {"n":30,"title":"Checkpoint Fase 3","lead":"Azioni con oggetto diretto e negazione.","points":["Obiettivo: usare den/einen e negare con kein/nicht."],"ex":[["Ich kaufe einen Apfel, aber ich habe keine Tasche.","Compro una mela, ma non ho una borsa."]],"task":"Scrivi 4 frasi con accusativo e poi fai il quiz."}
+      ],
+      "quiz": [
+        {"q":"All'accusativo «der» diventa…","opts":["dem","den","der","das"],"a":1,"why":"Solo il maschile cambia: der → den."},
+        {"q":"«Ho un fratello»: Ich habe ___ Bruder","opts":["ein","eine","einen","einem"],"a":2,"why":"Maschile accusativo: ein → einen."},
+        {"q":"Per negare un nome con articolo indeterminato si usa…","opts":["nicht","kein","nein","nichts"],"a":1,"why":"kein/keine negano i nomi."},
+        {"q":"«du ____» (essen)","opts":["esst","isst","esse","essst"],"a":1,"why":"essen → du isst (e → i)."},
+        {"q":"Quale caso indica il soggetto?","opts":["Accusativo","Dativo","Nominativo","Genitivo"],"a":2,"why":"Il soggetto è in Nominativo."}
+      ]
+    },
+    {
+      "num": 4, "title": "Dativo, modali e preposizioni", "accent": "#138086", "accentName": "Verde acqua",
+      "subtitle": "Sfumatura, direzione e l'orario.",
+      "chips": ["Dativo","Verbi modali","Preposizioni","Spazio e tempo","L'ora"],
+      "days": [
+        {"n":31,"title":"Il caso Dativo","lead":"Indica «a chi / per chi» (oggetto indiretto).","points":["der→dem, die→der, das→dem; plurale den (+ -n al nome).","Si chiede: Wem?"],"ex":[["Ich gebe dem Mann das Buch.","Do il libro all'uomo."],["Ich helfe der Frau.","Aiuto la donna."]],"task":"Metti «das Kind» al dativo: «Ich gebe ___ Kind…»."},
+        {"n":32,"title":"Verbi che reggono il dativo","lead":"Alcuni verbi vogliono sempre il dativo.","points":["helfen (aiutare), danken (ringraziare), geben (a chi=dat, cosa=acc)."],"ex":[["Ich danke dir.","Ti ringrazio."],["Er hilft mir.","Lui mi aiuta."]],"task":"Fai una frase con «helfen» + dativo."},
+        {"n":33,"title":"Verbo modale: können","lead":"Potere / sapere.","points":["ich kann, du kannst, er kann, wir können, ihr könnt, sie können."],"ex":[["Ich kann Deutsch sprechen.","So parlare tedesco."],["Kannst du mir helfen?","Puoi aiutarmi?"]],"task":"Dì 2 cose che sai/puoi fare."},
+        {"n":34,"title":"müssen e wollen","lead":"Dovere e volere.","points":["müssen: ich muss, du musst, er muss…","wollen: ich will, du willst, er will…"],"ex":[["Ich muss arbeiten.","Devo lavorare."],["Ich will lernen.","Voglio imparare."]],"task":"Una frase con «müssen» e una con «wollen»."},
+        {"n":35,"title":"möchten e dürfen","lead":"Il gentile «vorrei» e il permesso.","points":["möchten = vorrei: ich möchte, du möchtest…","dürfen = permesso: ich darf, du darfst…"],"ex":[["Ich möchte einen Kaffee.","Vorrei un caffè."],["Darf ich?","Posso?"]],"task":"Ordina qualcosa con «Ich möchte…»."},
+        {"n":36,"title":"Posizione: modale + infinito","lead":"Lo schema delle frasi con modale.","points":["Modale in 2ª posizione, infinito alla fine.","Schema: Soggetto + modale + … + infinito."],"ex":[["Ich kann heute nicht kommen.","Oggi non posso venire."],["Wir müssen Deutsch lernen.","Dobbiamo imparare il tedesco."]],"task":"Scrivi 2 frasi con modale + infinito alla fine."},
+        {"n":37,"title":"Preposizioni di luogo","lead":"Dove si trova qualcosa.","points":["in, auf, an, unter, neben, vor, hinter, zwischen.","Con stato in luogo reggono spesso il dativo."],"ex":[["Das Buch ist auf dem Tisch.","Il libro è sul tavolo."],["Ich bin in der Stadt.","Sono in città."]],"task":"Di' dove si trova un oggetto vicino a te."},
+        {"n":38,"title":"Preposizioni di tempo","lead":"Quando succede qualcosa.","points":["am + giorni (am Montag), um + ore (um 8 Uhr), im + mesi (im Juli)."],"ex":[["Am Montag","Lunedì"],["Um 8 Uhr","Alle 8"],["Im Sommer","D'estate"]],"task":"Di' quando inizi a lavorare (giorno + ora)."},
+        {"n":39,"title":"Dire l'ora","lead":"Versione semplice e quotidiana.","points":["Wie spät ist es? → Es ist … Uhr.","Viertel nach = e un quarto; halb = mezz'ora prima dell'ora dopo."],"ex":[["Es ist drei Uhr.","Sono le tre."],["Viertel nach drei","le 3:15"],["halb vier","le 3:30"]],"task":"Dì l'ora attuale in tedesco."},
+        {"n":40,"title":"Checkpoint Fase 4","lead":"Capacità, volontà, spazio e tempo.","points":["Obiettivo: frasi con modale + infinito e collocazione spazio/tempo."],"ex":[["Am Freitag möchte ich um acht Uhr Deutsch lernen.","Venerdì vorrei studiare tedesco alle otto."]],"task":"Scrivi 4 frasi con modali e orari, poi fai il quiz."}
+      ],
+      "quiz": [
+        {"q":"Al dativo «die» (femminile) diventa…","opts":["dem","der","den","die"],"a":1,"why":"Dativo femminile: die → der."},
+        {"q":"«Posso parlare tedesco»: Ich ____ Deutsch sprechen","opts":["kann","könnt","kannst","können"],"a":0,"why":"Con «ich»: kann."},
+        {"q":"Con un verbo modale, l'infinito va…","opts":["in 2ª posizione","dopo il soggetto","alla fine della frase","all'inizio"],"a":2,"why":"Modale 2°, infinito in fondo."},
+        {"q":"«möchten» serve per…","opts":["ordinare con cortesia","negare","fare domande","contare"],"a":0,"why":"möchte = «vorrei»."},
+        {"q":"«Viertel nach drei» sono le…","opts":["2:45","3:15","3:45","3:30"],"a":1,"why":"un quarto dopo le tre = 3:15."}
+      ]
+    },
+    {
+      "num": 5, "title": "Passato e frasi più ricche", "accent": "#6D45A3", "accentName": "Viola",
+      "subtitle": "Racconta cosa è successo e collega le idee.",
+      "chips": ["Perfekt","Participi","sein/haben","Congiunzioni","Viaggi"],
+      "days": [
+        {"n":41,"title":"Il Perfekt: struttura","lead":"È il passato che si usa parlando.","points":["Schema: haben/sein (2ª pos.) + participio passato alla fine."],"ex":[["Ich habe Deutsch gelernt.","Ho imparato il tedesco."],["Ich bin nach Berlin gefahren.","Sono andato a Berlino."]],"task":"Riconosci participio e ausiliare nelle frasi sopra."},
+        {"n":42,"title":"Participi regolari (ge-…-t)","lead":"La maggior parte dei verbi.","points":["machen→gemacht, spielen→gespielt, lernen→gelernt, kaufen→gekauft."],"ex":[["Ich habe Fußball gespielt.","Ho giocato a calcio."],["Wir haben gearbeitet.","Abbiamo lavorato."]],"task":"Forma il participio di «kochen» e «hören»."},
+        {"n":43,"title":"Participi irregolari (ge-…-en)","lead":"Pochi ma frequenti.","points":["sehen→gesehen, essen→gegessen, trinken→getrunken, lesen→gelesen."],"ex":[["Ich habe Pizza gegessen.","Ho mangiato la pizza."],["Er hat Wasser getrunken.","Ha bevuto acqua."]],"task":"Fai 2 frasi al Perfekt con participi irregolari."},
+        {"n":44,"title":"Perfekt con sein","lead":"Per verbi di movimento o cambio di stato.","points":["gehen→gegangen, fahren→gefahren, kommen→gekommen, bleiben→geblieben.","Si usa sein (non haben)."],"ex":[["Ich bin nach Hause gegangen.","Sono andato a casa."],["Sie ist gekommen.","Lei è venuta."]],"task":"Scrivi dove sei andato ieri."},
+        {"n":45,"title":"Congiunzioni semplici","lead":"Non cambiano l'ordine delle parole.","points":["und (e), oder (o), aber (ma), denn (perché/poiché)."],"ex":[["Ich lerne Deutsch und ich höre Musik.","Studio tedesco e ascolto musica."],["Es ist teuer, aber gut.","È caro, ma buono."]],"task":"Unisci 2 frasi con «aber»."},
+        {"n":46,"title":"weil e dass","lead":"Mandano il verbo ALLA FINE.","points":["weil (perché, causa) e dass (che) → verbo coniugato in fondo."],"ex":[["Ich lerne Deutsch, weil ich nach Berlin reise.","Studio tedesco perché vado a Berlino."],["Ich denke, dass es gut ist.","Penso che sia buono."]],"task":"Completa: «Ich bin müde, weil …»."},
+        {"n":47,"title":"Vocabolario: viaggi","lead":"Per muoverti.","points":[],"ex":[["der Zug / das Flugzeug","il treno / l'aereo"],["der Bahnhof / der Flughafen","la stazione / l'aeroporto"],["die Reise / das Hotel","il viaggio / l'hotel"]],"task":"Racconta un viaggio recente con 2 frasi al Perfekt."},
+        {"n":48,"title":"Vocabolario: tempo libero","lead":"Hobby e attività.","points":[],"ex":[["die Musik / der Film","la musica / il film"],["das Buch / der Sport","il libro / lo sport"],["Ich spiele gern…","Mi piace giocare a…"]],"task":"Dì 2 cose che ti piace fare («Ich … gern»)."},
+        {"n":49,"title":"Vocabolario: corpo e salute","lead":"Per il medico o la farmacia.","points":[],"ex":[["der Kopf / der Bauch","la testa / la pancia"],["Ich bin krank.","Sono malato."],["Ich habe Kopfschmerzen.","Ho mal di testa."]],"task":"Di' come ti senti oggi."},
+        {"n":50,"title":"Checkpoint Fase 5","lead":"Racconta al passato e collega le idee.","points":["Obiettivo: 3 frasi al Perfekt + una con «weil»."],"ex":[["Gestern bin ich nach Bari gefahren, weil ich Freunde besucht habe.","Ieri sono andato a Bari perché ho visitato degli amici."]],"task":"Scrivi un mini-racconto di 4 frasi al passato, poi fai il quiz."}
+      ],
+      "quiz": [
+        {"q":"Il Perfekt si forma con…","opts":["solo il verbo al passato","haben/sein + participio passato","werden + infinito","essere + gerundio"],"a":1,"why":"Ausiliare + participio alla fine."},
+        {"q":"Il participio di «machen» è…","opts":["gemacht","gemachen","machte","gemachte"],"a":0,"why":"ge- + radice + -t → gemacht."},
+        {"q":"Quale verbo usa «sein» al Perfekt?","opts":["machen","gehen","essen","trinken"],"a":1,"why":"I verbi di movimento (gehen) usano sein."},
+        {"q":"Dopo «weil» il verbo va…","opts":["in 2ª posizione","all'inizio","alla fine","dopo weil"],"a":2,"why":"weil manda il verbo in fondo."},
+        {"q":"Il participio di «trinken» è…","opts":["getrinkt","getrunken","getrank","getrinken"],"a":1,"why":"Irregolare: getrunken."}
+      ]
+    },
+    {
+      "num": 6, "title": "Consolidamento e conversazione", "accent": "#2E7D32", "accentName": "Verde",
+      "subtitle": "Metti tutto insieme e prendi scioltezza fino al test A1.",
+      "chips": ["Futuro","Ripasso casi","Mini-dialoghi","Comprensione","Test A1"],
+      "days": [
+        {"n":51,"title":"Il futuro con werden","lead":"Il futuro esplicito.","points":["werden + infinito alla fine. ich werde, du wirst, er wird, wir werden…"],"ex":[["Ich werde Deutsch lernen.","Imparerò il tedesco."],["Wir werden nach Berlin fahren.","Andremo a Berlino."]],"task":"Trasforma 2 progetti in frasi al futuro."},
+        {"n":52,"title":"Ripasso dei casi","lead":"La tabellina che risolve metà dei dubbi.","points":["Maschile: Nom der / Akk den / Dat dem.","Femm.: die/die/der. Neutro: das/das/dem. Plur.: die/die/den."],"ex":[["Nom: Der Mann. Akk: den Mann. Dat: dem Mann.","Il maschile è quello che cambia di più."]],"task":"Declina «das Kind» nei tre casi."},
+        {"n":53,"title":"Mini-dialogo: al ristorante","lead":"Ordinare con naturalezza.","points":["Frasi pronte da riusare."],"ex":[["Ich möchte einen Kaffee, bitte.","Vorrei un caffè, per favore."],["Die Rechnung, bitte.","Il conto, per favore."],["Was empfehlen Sie?","Cosa consiglia?"]],"task":"Ordina un pasto completo a voce."},
+        {"n":54,"title":"Mini-dialogo: chiedere indicazioni","lead":"Orientarsi in città.","points":[],"ex":[["Wie komme ich zum Bahnhof?","Come arrivo alla stazione?"],["Wo ist die Toilette?","Dov'è il bagno?"],["links / rechts / geradeaus","sinistra / destra / dritto"]],"task":"Chiedi la strada per due luoghi diversi."},
+        {"n":55,"title":"Mini-dialogo: small talk","lead":"Rompere il ghiaccio.","points":[],"ex":[["Wie geht's? — Gut, danke!","Come va? — Bene, grazie!"],["Was machst du beruflich?","Che lavoro fai?"],["Schönes Wetter heute!","Bel tempo oggi!"]],"task":"Simula una breve presentazione con uno sconosciuto."},
+        {"n":56,"title":"Comprensione: testo breve","lead":"Leggere senza tradurre ogni parola.","points":["Cerca le parole note e indovina il resto dal contesto."],"ex":[["Hallo, ich heiße Anna. Ich komme aus Wien und wohne in München. Ich arbeite als Lehrerin.","Ciao, mi chiamo Anna. Vengo da Vienna e abito a Monaco. Lavoro come insegnante."]],"task":"Riassumi in italiano cosa ha detto Anna senza rileggere."},
+        {"n":57,"title":"Comprensione: ascolto","lead":"Allenare l'orecchio.","points":["Ascolta podcast per principianti; ripeti ad alta voce (shadowing).","Cogli le parole chiave, non puntare a capire tutto."],"ex":[["Langsam, bitte.","Lentamente, per favore."],["Können Sie das wiederholen?","Può ripetere?"]],"task":"Ascolta 3 minuti di tedesco e segna 3 parole riconosciute."},
+        {"n":58,"title":"Aggettivi e opinioni","lead":"Dire cosa pensi.","points":["Ich finde … gut/schlecht/interessant.","gern dopo il verbo = «volentieri / mi piace»."],"ex":[["Ich finde Deutsch interessant.","Trovo il tedesco interessante."],["Ich lerne gern Deutsch.","Mi piace imparare il tedesco."]],"task":"Esprimi 2 opinioni con «Ich finde…»."},
+        {"n":59,"title":"Ripasso generale","lead":"Caccia agli errori ricorrenti.","points":["Controlla: verbo in 2ª pos., articoli corretti, participio in fondo.","Rivedi i checkpoint dei giorni 10/20/30/40/50."],"ex":[["Heute habe ich viel gelernt.","Oggi ho imparato molto."]],"task":"Riscrivi 3 vecchie frasi correggendo gli errori."},
+        {"n":60,"title":"Test finale A1 + prossimi passi","lead":"Verifica e direzione futura.","points":["Sai presentarti, fare acquisti, chiedere indicazioni, raccontare al passato: è A1!","Prossimo passo: A2 (Dativo a fondo, frasi complesse)."],"ex":[["Ich habe 60 Tage Deutsch gelernt und ich kann jetzt sprechen!","Ho studiato tedesco per 60 giorni e ora so parlare!"]],"task":"Fai il quiz finale: se superi 4/5, sei pronto per l'A2. Glückwunsch!"}
+      ],
+      "quiz": [
+        {"q":"Il futuro si forma con…","opts":["haben + participio","werden + infinito","sein + infinito","möchten + nome"],"a":1,"why":"werden + infinito alla fine."},
+        {"q":"Al ristorante: «Ich ____ einen Kaffee, bitte»","opts":["möchte","bin","gehe","komme"],"a":0,"why":"möchte = vorrei, perfetto per ordinare."},
+        {"q":"«Wie komme ich zum Bahnhof?» chiede…","opts":["che ore sono","come arrivare alla stazione","quanto costa","da dove vieni"],"a":1,"why":"È la frase per chiedere indicazioni."},
+        {"q":"Articolo «das» nei casi Nom / Akk / Dat:","opts":["das / das / dem","der / den / dem","das / den / der","die / die / der"],"a":0,"why":"Neutro: das, das, dem."},
+        {"q":"«Ich lerne gern Deutsch» significa…","opts":["devo studiare tedesco","mi piace studiare tedesco","ho studiato tedesco","non studio tedesco"],"a":1,"why":"gern dopo il verbo = «mi piace»."}
+      ]
+    }
+  ]
+}

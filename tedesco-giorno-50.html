@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Giorno 50: Checkpoint Fase 5 · Tedesco in 60 giorni</title>
+<meta name="description" content="Giorno 50 di 60 — Fase 5 (Passato e frasi più ricche). Racconta al passato e collega le idee.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #FBFAF6;
+  --ink: #16151A;
+  --muted: #6A6873;
+  --line: #E7E4DC;
+  --card: #FFFFFF;
+  --ok: #1F8A4C;
+  --no: #C2392F;
+  --accent: #6D45A3;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, .display {
+  font-family: "Archivo", "Arial Black", Impact, system-ui, sans-serif;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+a { color: inherit; }
+.wrap { width: min(960px, 92vw); margin-inline: auto; }
+.eyebrow {
+  font-family: "Archivo", system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  color: var(--accent);
+}
+
+/* Header sticky */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: saturate(140%) blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 12px 0; flex-wrap: wrap;
+}
+.brand {
+  font-family: "Archivo", system-ui, sans-serif; font-weight: 900;
+  font-size: 1rem; text-decoration: none; color: var(--ink);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.brand .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); display: inline-block; }
+.header-link {
+  text-decoration: none; font-weight: 600; font-size: 0.9rem;
+  color: var(--ink); padding: 6px 12px; border: 1px solid var(--line);
+  border-radius: 999px; background: var(--card);
+}
+.header-link:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Pallini fasi */
+.dots { display: flex; gap: 8px; align-items: center; }
+.dots a {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: "Archivo", system-ui, sans-serif; font-weight: 700; font-size: 0.85rem;
+  text-decoration: none; border: 2px solid var(--line); color: var(--muted);
+  background: var(--card); transition: transform .12s ease;
+}
+.dots a:hover { transform: translateY(-2px); }
+.dots a.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.dots a[data-accent] { border-color: var(--line); }
+
+/* Hero */
+.hero { position: relative; padding: 56px 0 36px; overflow: hidden; }
+.hero .bignum {
+  position: absolute; right: -2vw; top: -2vw; font-family: "Archivo", system-ui, sans-serif;
+  font-weight: 900; font-size: clamp(140px, 34vw, 360px); line-height: 0.8;
+  color: var(--accent); opacity: 0.10; pointer-events: none; user-select: none; z-index: 0;
+}
+.hero > * { position: relative; z-index: 1; }
+.hero h1 { font-size: clamp(2rem, 6vw, 3.4rem); margin: 10px 0 12px; }
+.hero .subtitle { font-size: clamp(1.05rem, 2.4vw, 1.3rem); color: var(--muted); max-width: 46ch; }
+
+/* Chips */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.chip {
+  font-size: 0.82rem; font-weight: 600; padding: 6px 12px; border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 10%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+  color: color-mix(in srgb, var(--accent) 75%, var(--ink));
+}
+
+/* Progress bar */
+.progress { margin: 8px 0 0; }
+.progress .bar { height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; }
+.progress .bar > span { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.progress .label { font-size: 0.8rem; color: var(--muted); margin-top: 6px; font-weight: 600; }
+
+/* Cards giorno */
+.day-list { display: grid; gap: 16px; padding: 8px 0 24px; }
+.day-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+  padding: 20px; display: grid; grid-template-columns: 56px 1fr; gap: 18px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03); transition: border-color .15s ease, transform .15s ease;
+}
+.day-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.day-card .marker {
+  width: 56px; height: 56px; border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 12%, var(--card));
+  color: var(--accent); display: grid; place-items: center;
+  font-family: "Archivo", system-ui, sans-serif; font-weight: 900; font-size: 1.4rem;
+}
+.day-card h3 { margin: 0 0 6px; font-size: 1.15rem; }
+.day-card .lead { color: var(--muted); margin: 0 0 10px; }
+.day-card .task {
+  font-size: 0.92rem; margin: 0 0 14px;
+  padding: 8px 12px; border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, var(--card)); border-radius: 0 8px 8px 0;
+}
+.day-card .task b { color: var(--accent); }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  text-decoration: none; font-weight: 600; font-size: 0.95rem;
+  padding: 10px 16px; border-radius: 10px; border: 1px solid var(--accent);
+  background: var(--accent); color: #fff; transition: opacity .15s ease, transform .15s ease;
+}
+.btn:hover { opacity: 0.92; transform: translateY(-1px); }
+.btn.ghost { background: var(--card); color: var(--ink); border-color: var(--line); }
+.btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Content blocks (pagina giorno) */
+.section { padding: 8px 0; }
+.section h2 { font-size: 1.5rem; margin: 28px 0 12px; display: flex; align-items: center; gap: 10px; }
+.section h2 .num {
+  width: 32px; height: 32px; border-radius: 9px; background: var(--accent); color: #fff;
+  display: grid; place-items: center; font-size: 0.95rem;
+}
+.prose p { font-size: 1.05rem; }
+.prose ul { padding-left: 1.2em; }
+.prose li { margin: 6px 0; }
+
+table.ex {
+  width: 100%; border-collapse: collapse; background: var(--card);
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 8px 0;
+}
+table.ex caption { caption-side: top; text-align: left; font-weight: 600; color: var(--muted); padding: 4px 2px 10px; }
+table.ex th {
+  text-align: left; font-family: "Archivo", system-ui, sans-serif; font-size: 0.78rem;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+  padding: 10px 14px; border-bottom: 2px solid var(--line); background: color-mix(in srgb, var(--accent) 5%, var(--card));
+}
+table.ex td { padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.ex tr:last-child td { border-bottom: none; }
+table.ex td.de { font-weight: 600; color: var(--ink); }
+table.ex td.it { color: var(--muted); }
+
+.callout {
+  border-radius: 14px; padding: 18px 20px; margin: 16px 0;
+  background: color-mix(in srgb, var(--accent) 8%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line));
+}
+.callout h3 { margin: 0 0 6px; font-size: 1.05rem; color: var(--accent); }
+.callout p { margin: 0; }
+
+.exercise {
+  border-radius: 14px; padding: 18px 20px; margin: 16px 0;
+  background: var(--card); border: 1px dashed color-mix(in srgb, var(--accent) 45%, var(--line));
+}
+.exercise h3 { margin: 0 0 8px; font-size: 1.05rem; }
+.exercise details { margin-top: 10px; }
+.exercise summary {
+  cursor: pointer; font-weight: 600; color: var(--accent);
+  padding: 8px 12px; border-radius: 8px; background: color-mix(in srgb, var(--accent) 8%, var(--card));
+  display: inline-block; list-style: none;
+}
+.exercise summary::-webkit-details-marker { display: none; }
+.exercise summary::before { content: "▸ "; }
+.exercise details[open] summary::before { content: "▾ "; }
+.exercise .solution { margin-top: 12px; padding: 12px 14px; border-left: 3px solid var(--ok); background: color-mix(in srgb, var(--ok) 6%, var(--card)); border-radius: 0 8px 8px 0; }
+
+/* Quiz */
+.quiz { margin: 8px 0 8px; }
+.quiz .qcard {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 18px 20px; margin: 14px 0;
+}
+.quiz .qcard p.q { font-weight: 600; font-size: 1.05rem; margin: 0 0 12px; }
+.quiz .qcard p.q .qn { color: var(--accent); font-family: "Archivo", system-ui, sans-serif; }
+.quiz .opts { display: grid; gap: 8px; }
+.quiz button.opt {
+  text-align: left; font: inherit; cursor: pointer; width: 100%;
+  padding: 11px 14px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--paper); color: var(--ink); transition: border-color .12s ease, background .12s ease;
+}
+.quiz button.opt:hover:not(:disabled) { border-color: var(--accent); }
+.quiz button.opt:disabled { cursor: default; }
+.quiz button.opt.correct { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, var(--card)); color: var(--ok); font-weight: 600; }
+.quiz button.opt.wrong { border-color: var(--no); background: color-mix(in srgb, var(--no) 12%, var(--card)); color: var(--no); }
+.quiz .why {
+  margin-top: 10px; font-size: 0.92rem; color: var(--muted);
+  padding: 8px 12px; border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0;
+  background: color-mix(in srgb, var(--accent) 5%, var(--card)); display: none;
+}
+.quiz .why.show { display: block; }
+.quiz-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  flex-wrap: wrap; margin: 8px 0 4px;
+}
+.quiz-score { font-family: "Archivo", system-ui, sans-serif; font-weight: 700; font-size: 1.1rem; }
+.quiz-score b { color: var(--accent); }
+.quiz-final {
+  display: none; margin-top: 14px; padding: 16px 18px; border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 10%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line)); font-weight: 600;
+}
+.quiz-final.show { display: block; }
+
+/* Nav footer */
+.navfoot {
+  display: flex; gap: 12px; justify-content: space-between; align-items: stretch;
+  flex-wrap: wrap; padding: 24px 0 48px; border-top: 1px solid var(--line); margin-top: 24px;
+}
+.navfoot a { flex: 1 1 240px; min-width: 220px; }
+.navfoot .btn { width: 100%; justify-content: space-between; }
+.navfoot .spacer { flex: 1 1 240px; min-width: 220px; }
+
+footer.site-footer {
+  border-top: 1px solid var(--line); padding: 24px 0 40px; color: var(--muted);
+  font-size: 0.88rem; text-align: center;
+}
+
+@media (max-width: 560px) {
+  .day-card { grid-template-columns: 44px 1fr; gap: 12px; padding: 16px; }
+  .day-card .marker { width: 44px; height: 44px; font-size: 1.1rem; }
+  .header-inner { gap: 8px; }
+  .dots a { width: 26px; height: 26px; font-size: 0.78rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="tedesco-fase-5.html"><span class="dot"></span>Tedesco · Fase 5</a>
+    <a class="header-link" href="tedesco-fase-5.html">↩ Indice Fase 5</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="bignum" aria-hidden="true">50</div>
+      <p class="eyebrow">Giorno 50 / 60 · Fase 5 — Passato e frasi più ricche</p>
+      <h1>Checkpoint Fase 5</h1>
+      <p class="subtitle">Racconta al passato e collega le idee.</p>
+      <div class="progress">
+        <div class="bar"><span style="width:83%"></span></div>
+        <div class="label">Giorno 50 / 60 · <a href="index.html" style="color:var(--accent);">indice</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="section prose">
+      <h2><span class="num">1</span> Spiegazione</h2>
+      <p>Racconta al passato e collega le idee.</p><p>Ecco il punto chiave di oggi:</p><ul><li>Obiettivo: 3 frasi al Perfekt + una con «weil».</li></ul><p>Non avere fretta: rileggi gli esempi qui sotto finché lo schema non ti sembra naturale.</p>
+    </div>
+
+    <div class="section">
+      <h2><span class="num">2</span> Esempi</h2>
+      <table class="ex">
+  <caption>Leggi a voce alta: prima il tedesco, poi l'italiano.</caption>
+  <thead><tr><th>Tedesco</th><th>Italiano</th></tr></thead>
+  <tbody><tr><td class="de">Gestern bin ich nach Bari gefahren, weil ich Freunde besucht habe.</td><td class="it">Ieri sono andato a Bari perché ho visitato degli amici.</td></tr></tbody>
+</table>
+    </div>
+
+    <div class="section">
+      <h2><span class="num">3</span> Trucco del giorno</h2>
+      <div class="callout">
+        <h3>💡 Tienilo a mente</h3>
+        <p>Obiettivo: 3 frasi al Perfekt + una con «weil».</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="num">4</span> Mini-esercizio</h2>
+      <div class="exercise">
+        <h3>Il tuo compito di oggi</h3>
+        <p>Scrivi un mini-racconto di 4 frasi al passato, poi fai il quiz.</p>
+        <details>
+          <summary>Mostra soluzione / esempio</summary>
+          <div class="solution">
+            <p><b>Esempio svolto:</b></p>
+            <table class="ex" style="margin-top:8px;">
+              <tbody><tr><td class="de">Gestern bin ich nach Bari gefahren, weil ich Freunde besucht habe.</td><td class="it">Ieri sono andato a Bari perché ho visitato degli amici.</td></tr></tbody>
+            </table>
+            <p style="margin-top:10px;color:var(--muted);">Confronta con quello che hai prodotto: l'importante è che articoli, ordine delle parole e desinenze corrispondano agli esempi.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <nav class="wrap navfoot" aria-label="Navigazione giorni">
+    <a href="tedesco-fase-5.html"><span class="btn ghost">↩ Torna alla Fase 5</span></a>
+    <a href="tedesco-giorno-51.html"><span class="btn">Giorno 51 →</span></a>
+  </nav>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">Tedesco in 60 giorni · Giorno 50 di 60 · <a href="tedesco-fase-5.html">Fase 5</a> · <a href="index.html">Indice</a></div>
+</footer>
+</body>
+</html>
