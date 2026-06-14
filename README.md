@@ -90,6 +90,12 @@ git add audio/ && git commit -m "Audio MP3" && git push origin main
 - È **idempotente**: rilanciandolo genera solo i file mancanti (`--force` per rifarli tutti).
 - Serve solo una macchina con Python, Internet e orologio di sistema corretto.
 
+> **Rigenera gli HTML dopo gli MP3.** Quando tutte le frasi di una pagina hanno già il loro
+> MP3, il menu di scelta voce del browser non avrebbe effetto (l'MP3 neural vince sempre),
+> quindi `generate.py` lo nasconde su quelle pagine. Questo controllo guarda i file presenti
+> in `audio/`, perciò l'ordine consigliato è: `generate_audio.py` → poi `python3 generate.py`.
+> Se un MP3 manca, su quella pagina il menu resta visibile come fallback.
+
 ## Design e contenuti
 
 - Palette geometrica/Bauhaus; ogni fase ha un colore-accento dedicato.

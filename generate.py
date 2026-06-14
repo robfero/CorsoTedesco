@@ -65,6 +65,26 @@ def audio_file(text):
     return f"{AUDIO_DIR}/de-{h}.mp3"
 
 
+def audio_present(text):
+    """True se l'MP3 pre-generato per questa frase esiste già su disco."""
+    p = os.path.join(BASE, audio_file(text))
+    return os.path.exists(p) and os.path.getsize(p) > 0
+
+
+def voice_span(de_list):
+    """Span del selettore voce del browser.
+
+    Se ogni frase della pagina ha già il suo MP3, il menu è inutile (l'MP3
+    neural vince sempre sulla sintesi del browser): lo marchiamo con
+    `data-audio-complete` così il JS lo nasconde. Serve solo come fallback
+    quando manca almeno un MP3, quindi lì il menu resta visibile.
+    Nota: dipende dai file presenti, quindi rigenera gli HTML DOPO gli MP3.
+    """
+    complete = bool(de_list) and all(audio_present(t) for t in de_list)
+    attr = " data-audio-complete" if complete else ""
+    return f'<span class="tts-voice" data-tts-voice{attr}></span>'
+
+
 def german_phrases(course):
     """Tutte le frasi tedesche uniche (colonna `de` degli esempi)."""
     seen, out = set(), []
@@ -203,6 +223,8 @@ TTS_SCRIPT = """
     var vs = germanVoices();
     document.querySelectorAll('[data-tts-voice]').forEach(function (h) {
       h.innerHTML = '';
+      // Tutte le frasi hanno l'MP3: il menu voce non avrebbe effetto → nascosto.
+      if (h.hasAttribute('data-audio-complete')) { h.style.display = 'none'; return; }
       h.style.display = '';
       var label = document.createElement('span'); label.textContent = 'Voce';
       label.title = vs.length + ' voci tedesche disponibili nel browser';
@@ -615,6 +637,9 @@ def render_phase(course, phase):
 
     chips = "".join(f'<span class="chip">{esc(c)}</span>' for c in phase["chips"])
 
+    # Tutte le frasi tedesche della fase (per decidere se mostrare il menu voce)
+    phase_de = [de for d in phase["days"] for de, _ in d["ex"]]
+
     # Cards dei giorni
     cards = []
     for d in phase["days"]:
@@ -694,7 +719,7 @@ def render_phase(course, phase):
       <h2 class="display" style="font-size:1.5rem;margin:8px 0 4px;">I 10 giorni della fase</h2>
       <div class="tts-bar">
         <span class="tts-speed" data-tts-speed></span>
-        <span class="tts-voice" data-tts-voice></span>
+        {voice_span(phase_de)}
       </div>
     </div>
     <div class="day-list">{cards_html}</div>
@@ -893,7 +918,7 @@ def render_day(course, day, phase):
         <h2><span class="num">2</span> Esempi</h2>
         <div class="ex-actions">
           <span class="tts-speed" data-tts-speed></span>
-          <span class="tts-voice" data-tts-voice></span>
+          {voice_span(de_list)}
           {listen_all}
         </div>
       </div>

@@ -313,7 +313,7 @@ footer.site-footer {
         <h2><span class="num">2</span> Esempi</h2>
         <div class="ex-actions">
           <span class="tts-speed" data-tts-speed></span>
-          <span class="tts-voice" data-tts-voice></span>
+          <span class="tts-voice" data-tts-voice data-audio-complete></span>
           <button type="button" class="btn ghost btn-speak-all" data-speak-all="[{&quot;t&quot;: &quot;Ich habe Pizza gegessen.&quot;, &quot;a&quot;: &quot;audio/de-1a6965388706adcb.mp3&quot;}, {&quot;t&quot;: &quot;Er hat Wasser getrunken.&quot;, &quot;a&quot;: &quot;audio/de-0a2bdaa416dd99e1.mp3&quot;}]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta tutto</button>
         </div>
       </div>
@@ -483,6 +483,8 @@ footer.site-footer {
     var vs = germanVoices();
     document.querySelectorAll('[data-tts-voice]').forEach(function (h) {
       h.innerHTML = '';
+      // Tutte le frasi hanno l'MP3: il menu voce non avrebbe effetto → nascosto.
+      if (h.hasAttribute('data-audio-complete')) { h.style.display = 'none'; return; }
       h.style.display = '';
       var label = document.createElement('span'); label.textContent = 'Voce';
       label.title = vs.length + ' voci tedesche disponibili nel browser';

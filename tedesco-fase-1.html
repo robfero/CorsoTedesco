@@ -304,7 +304,7 @@ footer.site-footer {
       <h2 class="display" style="font-size:1.5rem;margin:8px 0 4px;">I 10 giorni della fase</h2>
       <div class="tts-bar">
         <span class="tts-speed" data-tts-speed></span>
-        <span class="tts-voice" data-tts-voice></span>
+        <span class="tts-voice" data-tts-voice data-audio-complete></span>
       </div>
     </div>
     <div class="day-list">
@@ -644,6 +644,8 @@ buildQuiz();
     var vs = germanVoices();
     document.querySelectorAll('[data-tts-voice]').forEach(function (h) {
       h.innerHTML = '';
+      // Tutte le frasi hanno l'MP3: il menu voce non avrebbe effetto → nascosto.
+      if (h.hasAttribute('data-audio-complete')) { h.style.display = 'none'; return; }
       h.style.display = '';
       var label = document.createElement('span'); label.textContent = 'Voce';
       label.title = vs.length + ' voci tedesche disponibili nel browser';

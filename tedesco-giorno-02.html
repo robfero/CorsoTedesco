@@ -313,7 +313,7 @@ footer.site-footer {
         <h2><span class="num">2</span> Esempi</h2>
         <div class="ex-actions">
           <span class="tts-speed" data-tts-speed></span>
-          <span class="tts-voice" data-tts-voice></span>
+          <span class="tts-voice" data-tts-voice data-audio-complete></span>
           <button type="button" class="btn ghost btn-speak-all" data-speak-all="[{&quot;t&quot;: &quot;Guten Morgen / Guten Tag / Guten Abend&quot;, &quot;a&quot;: &quot;audio/de-28a4bd3775b95335.mp3&quot;}, {&quot;t&quot;: &quot;Tschüss / Auf Wiedersehen&quot;, &quot;a&quot;: &quot;audio/de-9a8b3f39812e38fe.mp3&quot;}, {&quot;t&quot;: &quot;Bitte / Danke / Entschuldigung&quot;, &quot;a&quot;: &quot;audio/de-f283962d01f42c7c.mp3&quot;}]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta tutto</button>
         </div>
       </div>
@@ -483,6 +483,8 @@ footer.site-footer {
     var vs = germanVoices();
     document.querySelectorAll('[data-tts-voice]').forEach(function (h) {
       h.innerHTML = '';
+      // Tutte le frasi hanno l'MP3: il menu voce non avrebbe effetto → nascosto.
+      if (h.hasAttribute('data-audio-complete')) { h.style.display = 'none'; return; }
       h.style.display = '';
       var label = document.createElement('span'); label.textContent = 'Voce';
       label.title = vs.length + ' voci tedesche disponibili nel browser';
