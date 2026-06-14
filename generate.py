@@ -109,6 +109,8 @@ TTS_SCRIPT = """
       u.volume = 0; u.lang = 'de-DE';
       synth.speak(u); kick();
     } catch (e) {}
+    // iOS espone spesso l'elenco completo delle voci solo dopo il primo gesto.
+    refreshVoices(); setTimeout(refreshVoices, 400);
   }
 
   function speakOne(text, btn) {
@@ -214,12 +216,19 @@ TTS_SCRIPT = """
   window.addEventListener('beforeunload', function () { synth.cancel(); });
 
   // --- Avvio -------------------------------------------------------------
-  pickVoice();
+  function refreshVoices() { pickVoice(); buildVoiceControls(); syncLinks(); }
+
+  // iOS: onvoiceschanged è inaffidabile → riprovo la lista più volte.
+  var voiceTries = 0;
+  (function pollVoices() {
+    refreshVoices();
+    voiceTries++;
+    if (voiceTries < 25 && germanVoices().length < 2) setTimeout(pollVoices, 300);
+  })();
+
   buildSpeedControls();
-  buildVoiceControls();
-  syncLinks();
   if (typeof synth.onvoiceschanged !== 'undefined') {
-    synth.onvoiceschanged = function () { pickVoice(); buildVoiceControls(); syncLinks(); };
+    synth.onvoiceschanged = refreshVoices;
   }
 })();
 </script>
