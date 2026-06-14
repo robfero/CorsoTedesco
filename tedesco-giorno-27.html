@@ -314,13 +314,13 @@ footer.site-footer {
         <div class="ex-actions">
           <span class="tts-speed" data-tts-speed></span>
           <span class="tts-voice" data-tts-voice></span>
-          <button type="button" class="btn ghost btn-speak-all" data-speak-all="[&quot;Was kostet das?&quot;, &quot;Ich möchte … kaufen.&quot;, &quot;der Markt / das Geschäft&quot;]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta tutto</button>
+          <button type="button" class="btn ghost btn-speak-all" data-speak-all="[{&quot;t&quot;: &quot;Was kostet das?&quot;, &quot;a&quot;: &quot;audio/de-1dde9fe5e0a3937d.mp3&quot;}, {&quot;t&quot;: &quot;Ich möchte … kaufen.&quot;, &quot;a&quot;: &quot;audio/de-ad14493d02d09b1f.mp3&quot;}, {&quot;t&quot;: &quot;der Markt / das Geschäft&quot;, &quot;a&quot;: &quot;audio/de-1a92b62e64e4414b.mp3&quot;}]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta tutto</button>
         </div>
       </div>
       <table class="ex">
   <caption>Leggi a voce alta: prima il tedesco, poi l'italiano. Tocca 🔊 per ascoltare.</caption>
   <thead><tr><th>Tedesco</th><th>Italiano</th></tr></thead>
-  <tbody><tr><td class="de"><span>Was kostet das?</span> <button type="button" class="speak" data-speak="Was kostet das?" aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">Quanto costa?</td></tr><tr><td class="de"><span>Ich möchte … kaufen.</span> <button type="button" class="speak" data-speak="Ich möchte … kaufen." aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">Vorrei comprare…</td></tr><tr><td class="de"><span>der Markt / das Geschäft</span> <button type="button" class="speak" data-speak="der Markt / das Geschäft" aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">il mercato / il negozio</td></tr></tbody>
+  <tbody><tr><td class="de"><span>Was kostet das?</span> <button type="button" class="speak" data-speak="Was kostet das?" data-audio="audio/de-1dde9fe5e0a3937d.mp3" aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">Quanto costa?</td></tr><tr><td class="de"><span>Ich möchte … kaufen.</span> <button type="button" class="speak" data-speak="Ich möchte … kaufen." data-audio="audio/de-ad14493d02d09b1f.mp3" aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">Vorrei comprare…</td></tr><tr><td class="de"><span>der Markt / das Geschäft</span> <button type="button" class="speak" data-speak="der Markt / das Geschäft" data-audio="audio/de-1a92b62e64e4414b.mp3" aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">il mercato / il negozio</td></tr></tbody>
 </table>
     </div>
 
@@ -342,7 +342,7 @@ footer.site-footer {
           <div class="solution">
             <p><b>Esempio svolto:</b></p>
             <table class="ex" style="margin-top:8px;">
-              <tbody><tr><td class="de"><span>Was kostet das?</span> <button type="button" class="speak" data-speak="Was kostet das?" aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">Quanto costa?</td></tr><tr><td class="de"><span>Ich möchte … kaufen.</span> <button type="button" class="speak" data-speak="Ich möchte … kaufen." aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">Vorrei comprare…</td></tr><tr><td class="de"><span>der Markt / das Geschäft</span> <button type="button" class="speak" data-speak="der Markt / das Geschäft" aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">il mercato / il negozio</td></tr></tbody>
+              <tbody><tr><td class="de"><span>Was kostet das?</span> <button type="button" class="speak" data-speak="Was kostet das?" data-audio="audio/de-1dde9fe5e0a3937d.mp3" aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">Quanto costa?</td></tr><tr><td class="de"><span>Ich möchte … kaufen.</span> <button type="button" class="speak" data-speak="Ich möchte … kaufen." data-audio="audio/de-ad14493d02d09b1f.mp3" aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">Vorrei comprare…</td></tr><tr><td class="de"><span>der Markt / das Geschäft</span> <button type="button" class="speak" data-speak="der Markt / das Geschäft" data-audio="audio/de-1a92b62e64e4414b.mp3" aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">il mercato / il negozio</td></tr></tbody>
             </table>
             <p style="margin-top:10px;color:var(--muted);">Confronta con quello che hai prodotto: l'importante è che articoli, ordine delle parole e desinenze corrispondano agli esempi.</p>
           </div>
@@ -373,6 +373,7 @@ footer.site-footer {
   var rate = (!isNaN(pRate) && pRate > 0) ? pRate : 0.95;   // "Normale"
   var wantVoice = params.get('voice') || '';
   var voice = null;
+  var currentAudio = null;
 
   var FEM = /anna|petra|katja|viktoria|marlene|hedda|vicki|conchita|paulina|sabina|female|frau|weiblich/i;
   var MAS = /markus|yannick|stefan|hans|conrad|viktor|male|mann|männlich/i;
@@ -417,24 +418,50 @@ footer.site-footer {
     refreshVoices(); setTimeout(refreshVoices, 400);
   }
 
-  function speakOne(text, btn) {
-    synth.cancel(); clearSpeaking();
+  function cancelAll() {
+    try { synth.cancel(); } catch (e) {}
+    if (currentAudio) { try { currentAudio.pause(); } catch (e) {} currentAudio = null; }
+    clearSpeaking();
+  }
+  function speakTTS(text, btn, onend) {
     var u = utter(text);
-    if (btn) {
-      btn.classList.add('speaking');
-      u.onend = u.onerror = function () { btn.classList.remove('speaking'); };
-    }
+    if (btn) btn.classList.add('speaking');
+    u.onend = u.onerror = function () { if (btn) btn.classList.remove('speaking'); if (onend) onend(); };
     synth.speak(u); kick();
   }
+  // Prova l'MP3 pre-generato (voce neural, funziona anche su iPad);
+  // se manca o fallisce, ripiega sulla sintesi vocale del browser.
+  function playItem(item, btn, onend) {
+    var text = item.t, src = item.a;
+    if (!src) { speakTTS(text, btn, onend); return; }
+    var a = new Audio(src);
+    a.playbackRate = rate < 0.9 ? 0.75 : 1;
+    currentAudio = a;
+    if (btn) btn.classList.add('speaking');
+    var failed = false;
+    function fail() {
+      if (failed) return; failed = true;
+      if (btn) btn.classList.remove('speaking');
+      if (currentAudio === a) currentAudio = null;
+      speakTTS(text, btn, onend);
+    }
+    a.onended = function () {
+      if (btn) btn.classList.remove('speaking');
+      if (currentAudio === a) currentAudio = null;
+      if (onend) onend();
+    };
+    a.onerror = fail;
+    var p = a.play();
+    if (p && p.catch) p.catch(fail);
+  }
+  function speakOne(item, btn) { cancelAll(); playItem(item, btn, null); }
   // Riproduzione in catena (più affidabile di una coda lunga su iOS).
   function speakMany(list) {
-    synth.cancel(); clearSpeaking();
+    cancelAll();
     var i = 0;
     (function next() {
       if (i >= list.length) return;
-      var u = utter(list[i++]);
-      u.onend = next;
-      synth.speak(u); kick();
+      playItem(list[i++], null, next);
     })();
   }
 
@@ -510,7 +537,7 @@ footer.site-footer {
     var sp = e.target.closest('[data-tts-speed] [data-rate]');
     if (sp) { e.preventDefault(); setRate(parseFloat(sp.getAttribute('data-rate'))); return; }
     var one = e.target.closest('[data-speak]');
-    if (one) { e.preventDefault(); speakOne(one.getAttribute('data-speak'), one); return; }
+    if (one) { e.preventDefault(); speakOne({ t: one.getAttribute('data-speak'), a: one.getAttribute('data-audio') }, one); return; }
     var all = e.target.closest('[data-speak-all]');
     if (all) {
       e.preventDefault();
@@ -526,7 +553,7 @@ footer.site-footer {
     document.addEventListener(ev, prime, { once: true, passive: true });
   });
   setInterval(function () { if (synth.speaking) kick(); }, 5000);
-  window.addEventListener('beforeunload', function () { synth.cancel(); });
+  window.addEventListener('beforeunload', function () { cancelAll(); });
 
   // --- Avvio -------------------------------------------------------------
   function refreshVoices() { pickVoice(); buildVoiceControls(); syncLinks(); }

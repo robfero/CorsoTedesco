@@ -11,6 +11,7 @@ Rigenerazione idempotente:  python3 generate.py
 """
 
 import html
+import hashlib
 import json
 import os
 
@@ -53,6 +54,29 @@ def phase_of_day(n):
     return (n - 1) // 10 + 1
 
 
+# --- Audio MP3 pre-generati (opzionali) ------------------------------------
+# Nome file stabile per ogni frase tedesca: lo stesso hash è usato da
+# generate_audio.py, così i due script restano allineati senza configurazione.
+AUDIO_DIR = "audio"
+
+
+def audio_file(text):
+    h = hashlib.md5(text.encode("utf-8")).hexdigest()[:16]
+    return f"{AUDIO_DIR}/de-{h}.mp3"
+
+
+def german_phrases(course):
+    """Tutte le frasi tedesche uniche (colonna `de` degli esempi)."""
+    seen, out = set(), []
+    for ph in course["phases"]:
+        for d in ph["days"]:
+            for de, _ in d["ex"]:
+                if de not in seen:
+                    seen.add(de)
+                    out.append(de)
+    return out
+
+
 # --- Audio: sintesi vocale tedesca (Web Speech API) ------------------------
 # Nessuna dipendenza, nessun file: il browser legge il testo in tedesco.
 # I pulsanti spariscono se il browser non supporta la sintesi vocale.
@@ -69,6 +93,7 @@ TTS_SCRIPT = """
   var rate = (!isNaN(pRate) && pRate > 0) ? pRate : 0.95;   // "Normale"
   var wantVoice = params.get('voice') || '';
   var voice = null;
+  var currentAudio = null;
 
   var FEM = /anna|petra|katja|viktoria|marlene|hedda|vicki|conchita|paulina|sabina|female|frau|weiblich/i;
   var MAS = /markus|yannick|stefan|hans|conrad|viktor|male|mann|männlich/i;
@@ -113,24 +138,50 @@ TTS_SCRIPT = """
     refreshVoices(); setTimeout(refreshVoices, 400);
   }
 
-  function speakOne(text, btn) {
-    synth.cancel(); clearSpeaking();
+  function cancelAll() {
+    try { synth.cancel(); } catch (e) {}
+    if (currentAudio) { try { currentAudio.pause(); } catch (e) {} currentAudio = null; }
+    clearSpeaking();
+  }
+  function speakTTS(text, btn, onend) {
     var u = utter(text);
-    if (btn) {
-      btn.classList.add('speaking');
-      u.onend = u.onerror = function () { btn.classList.remove('speaking'); };
-    }
+    if (btn) btn.classList.add('speaking');
+    u.onend = u.onerror = function () { if (btn) btn.classList.remove('speaking'); if (onend) onend(); };
     synth.speak(u); kick();
   }
+  // Prova l'MP3 pre-generato (voce neural, funziona anche su iPad);
+  // se manca o fallisce, ripiega sulla sintesi vocale del browser.
+  function playItem(item, btn, onend) {
+    var text = item.t, src = item.a;
+    if (!src) { speakTTS(text, btn, onend); return; }
+    var a = new Audio(src);
+    a.playbackRate = rate < 0.9 ? 0.75 : 1;
+    currentAudio = a;
+    if (btn) btn.classList.add('speaking');
+    var failed = false;
+    function fail() {
+      if (failed) return; failed = true;
+      if (btn) btn.classList.remove('speaking');
+      if (currentAudio === a) currentAudio = null;
+      speakTTS(text, btn, onend);
+    }
+    a.onended = function () {
+      if (btn) btn.classList.remove('speaking');
+      if (currentAudio === a) currentAudio = null;
+      if (onend) onend();
+    };
+    a.onerror = fail;
+    var p = a.play();
+    if (p && p.catch) p.catch(fail);
+  }
+  function speakOne(item, btn) { cancelAll(); playItem(item, btn, null); }
   // Riproduzione in catena (più affidabile di una coda lunga su iOS).
   function speakMany(list) {
-    synth.cancel(); clearSpeaking();
+    cancelAll();
     var i = 0;
     (function next() {
       if (i >= list.length) return;
-      var u = utter(list[i++]);
-      u.onend = next;
-      synth.speak(u); kick();
+      playItem(list[i++], null, next);
     })();
   }
 
@@ -206,7 +257,7 @@ TTS_SCRIPT = """
     var sp = e.target.closest('[data-tts-speed] [data-rate]');
     if (sp) { e.preventDefault(); setRate(parseFloat(sp.getAttribute('data-rate'))); return; }
     var one = e.target.closest('[data-speak]');
-    if (one) { e.preventDefault(); speakOne(one.getAttribute('data-speak'), one); return; }
+    if (one) { e.preventDefault(); speakOne({ t: one.getAttribute('data-speak'), a: one.getAttribute('data-audio') }, one); return; }
     var all = e.target.closest('[data-speak-all]');
     if (all) {
       e.preventDefault();
@@ -222,7 +273,7 @@ TTS_SCRIPT = """
     document.addEventListener(ev, prime, { once: true, passive: true });
   });
   setInterval(function () { if (synth.speaking) kick(); }, 5000);
-  window.addEventListener('beforeunload', function () { synth.cancel(); });
+  window.addEventListener('beforeunload', function () { cancelAll(); });
 
   // --- Avvio -------------------------------------------------------------
   function refreshVoices() { pickVoice(); buildVoiceControls(); syncLinks(); }
@@ -245,14 +296,20 @@ TTS_SCRIPT = """
 
 
 def speak_btn(text):
-    """Pulsante 🔊 per leggere una singola frase tedesca."""
+    """Pulsante 🔊 per leggere una singola frase tedesca.
+
+    `data-audio` punta all'MP3 pre-generato (se presente); in mancanza,
+    il player ripiega sulla sintesi vocale del browser.
+    """
     return (f'<button type="button" class="speak" data-speak="{esc(text)}"'
+            f' data-audio="{esc(audio_file(text))}"'
             f' aria-label="Ascolta in tedesco" title="Ascolta">🔊</button>')
 
 
 def speak_all_btn(de_list, label="🔊 Ascolta tutto"):
     """Pulsante che legge in sequenza più frasi tedesche."""
-    data = esc(json.dumps(de_list, ensure_ascii=False))
+    items = [{"t": t, "a": audio_file(t)} for t in de_list]
+    data = esc(json.dumps(items, ensure_ascii=False))
     return (f'<button type="button" class="btn ghost btn-speak-all" data-speak-all="{data}"'
             f' aria-label="Ascolta gli esempi in tedesco">{label}</button>')
 

@@ -66,9 +66,29 @@ Le pagine di giorno e di fase includono l'ascolto delle frasi tedesche tramite l
   (`?rate=...&voice=...`), senza usare `localStorage`: i link interni le propagano da soli.
 - Tutti i controlli audio **spariscono** se il browser non supporta la sintesi vocale.
 
-> La qualità della voce dipende dal dispositivo: ottima su iOS/Android/macOS (voci neurali),
-> più meccanica su Windows. Per un audio uniforme servirebbero MP3 pre-generati con un
-> servizio TTS esterno (fuori dallo scopo "zero dipendenze" di questo progetto).
+> La qualità della voce dipende dal dispositivo. **Nota su iPad/Safari:** iOS espone alla
+> Web Speech API solo una voce di sistema (di solito "Anna"), quindi lì non si possono
+> scegliere voci diverse. Per audio uniforme e di qualità ovunque, usa gli MP3 pre-generati
+> (sotto): le pagine li riproducono automaticamente quando presenti — iPad compreso — e
+> ripiegano sulla voce del browser quando mancano.
+
+### Audio MP3 pre-generati (opzionale, consigliato per iPad)
+
+Per avere voci neural identiche su ogni dispositivo (e funzionanti su iPad), genera i file
+audio con **`generate_audio.py`** (usa [`edge-tts`](https://github.com/rany2/edge-tts):
+gratuito, **senza API key**):
+
+```bash
+pip install edge-tts
+python3 generate_audio.py                       # voce femminile (de-DE-KatjaNeural)
+# python3 generate_audio.py --voice de-DE-ConradNeural   # voce maschile
+git add audio/ && git commit -m "Audio MP3" && git push origin main
+```
+
+- I file finiscono in `audio/` con nomi `de-<hash>.mp3` calcolati dallo stesso hash usato da
+  `generate.py`, quindi le pagine li trovano senza configurazione.
+- È **idempotente**: rilanciandolo genera solo i file mancanti (`--force` per rifarli tutti).
+- Serve solo una macchina con Python, Internet e orologio di sistema corretto.
 
 ## Design e contenuti
 
