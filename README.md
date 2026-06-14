@@ -53,6 +53,23 @@ Tutti i file sono nella **root** del repository. Per pubblicare:
 > imposta in `generate.py` la cartella di output su `docs/` e scegli **`/docs`** come
 > source in Settings → Pages.
 
+## Ascolto in tedesco (audio)
+
+Le pagine di giorno e di fase includono l'ascolto delle frasi tedesche tramite la
+**Web Speech API** del browser (nessun file audio, nessuna dipendenza, nessuna API key):
+
+- 🔊 su ogni frase tedesca + **"Ascolta tutto"** per leggerle in sequenza.
+- **Velocità** selezionabile: *Normale* / *Lenta 🐢*.
+- **Voce** selezionabile tra le voci tedesche installate sul dispositivo (con etichetta
+  *(f)*/*(m)* quando il nome è riconoscibile); il menu appare solo se c'è più di una voce.
+- Le preferenze di velocità e voce si conservano tra le pagine via **parametri URL**
+  (`?rate=...&voice=...`), senza usare `localStorage`: i link interni le propagano da soli.
+- Tutti i controlli audio **spariscono** se il browser non supporta la sintesi vocale.
+
+> La qualità della voce dipende dal dispositivo: ottima su iOS/Android/macOS (voci neurali),
+> più meccanica su Windows. Per un audio uniforme servirebbero MP3 pre-generati con un
+> servizio TTS esterno (fuori dallo scopo "zero dipendenze" di questo progetto).
+
 ## Design e contenuti
 
 - Palette geometrica/Bauhaus; ogni fase ha un colore-accento dedicato.

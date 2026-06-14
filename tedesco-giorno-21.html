@@ -162,6 +162,9 @@ a { color: inherit; }
 .tts-speed button { font: inherit; cursor: pointer; border: 0; background: var(--card); color: var(--ink); padding: 5px 13px; }
 .tts-speed button + button { border-left: 1px solid var(--line); }
 .tts-speed button.active { background: var(--accent); color: #fff; }
+.tts-bar { display: inline-flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.tts-voice { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--muted); }
+.tts-voice select { font: inherit; padding: 5px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--ink); cursor: pointer; max-width: 220px; }
 
 /* Content blocks (pagina giorno) */
 .section { padding: 8px 0; }
@@ -309,6 +312,7 @@ footer.site-footer {
         <h2><span class="num">2</span> Esempi</h2>
         <div class="ex-actions">
           <span class="tts-speed" data-tts-speed></span>
+          <span class="tts-voice" data-tts-voice></span>
           <button type="button" class="btn ghost btn-speak-all" data-speak-all="[&quot;Der Mann liest.&quot;]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta tutto</button>
         </div>
       </div>
@@ -359,19 +363,34 @@ footer.site-footer {
 <script>
 (function () {
   var synth = window.speechSynthesis;
-  var audioEls = document.querySelectorAll('[data-speak], [data-speak-all], [data-tts-speed]');
+  var audioEls = document.querySelectorAll('[data-speak], [data-speak-all], [data-tts-speed], [data-tts-voice]');
   if (!synth) { audioEls.forEach(function (b) { b.remove(); }); return; }
 
-  var rate = 0.95;            // velocità "Normale"
+  // --- Stato (persistito nell'URL, senza localStorage) -------------------
+  var params = new URLSearchParams(location.search);
+  var pRate = parseFloat(params.get('rate'));
+  var rate = (!isNaN(pRate) && pRate > 0) ? pRate : 0.95;   // "Normale"
+  var wantVoice = params.get('voice') || '';
   var voice = null;
-  function pickVoice() {
-    var vs = synth.getVoices() || [];
-    voice = vs.filter(function (v) { return v.lang === 'de-DE'; })[0]
-         || vs.filter(function (v) { return v.lang && v.lang.indexOf('de') === 0; })[0]
-         || null;
+
+  var FEM = /anna|petra|katja|viktoria|marlene|hedda|vicki|conchita|paulina|sabina|female|frau|weiblich/i;
+  var MAS = /markus|yannick|stefan|hans|conrad|viktor|male|mann|männlich/i;
+  function genderLabel(v) {
+    if (FEM.test(v.name)) return ' (f)';
+    if (MAS.test(v.name)) return ' (m)';
+    return '';
   }
-  pickVoice();
-  if (typeof synth.onvoiceschanged !== 'undefined') synth.onvoiceschanged = pickVoice;
+  function germanVoices() {
+    return (synth.getVoices() || []).filter(function (v) {
+      return v.lang && v.lang.toLowerCase().indexOf('de') === 0;
+    });
+  }
+  function pickVoice() {
+    var vs = germanVoices();
+    voice = (wantVoice && vs.filter(function (v) { return v.name === wantVoice; })[0])
+         || vs.filter(function (v) { return v.lang === 'de-DE'; })[0]
+         || vs[0] || null;
+  }
 
   function clearSpeaking() {
     document.querySelectorAll('.speak.speaking').forEach(function (b) { b.classList.remove('speaking'); });
@@ -382,21 +401,6 @@ footer.site-footer {
     if (voice) u.voice = voice;
     return u;
   }
-
-  function buildSpeedControls() {
-    document.querySelectorAll('[data-tts-speed]').forEach(function (h) {
-      h.innerHTML = '<span>Velocità</span><span class="seg">'
-        + '<button type="button" data-rate="0.95" class="active">Normale</button>'
-        + '<button type="button" data-rate="0.6">Lenta 🐢</button></span>';
-    });
-  }
-  function setRate(r) {
-    rate = r;
-    document.querySelectorAll('[data-tts-speed] button').forEach(function (b) {
-      b.classList.toggle('active', parseFloat(b.getAttribute('data-rate')) === r);
-    });
-  }
-  buildSpeedControls();
   function speakOne(text, btn) {
     synth.cancel(); clearSpeaking();
     var u = utter(text);
@@ -411,6 +415,65 @@ footer.site-footer {
     list.forEach(function (t) { synth.speak(utter(t)); });
   }
 
+  // --- Controlli UI ------------------------------------------------------
+  function buildSpeedControls() {
+    document.querySelectorAll('[data-tts-speed]').forEach(function (h) {
+      h.innerHTML = '<span>Velocità</span><span class="seg">'
+        + '<button type="button" data-rate="0.95">Normale</button>'
+        + '<button type="button" data-rate="0.6">Lenta 🐢</button></span>';
+    });
+    markRate();
+  }
+  function markRate() {
+    document.querySelectorAll('[data-tts-speed] button').forEach(function (b) {
+      b.classList.toggle('active', parseFloat(b.getAttribute('data-rate')) === rate);
+    });
+  }
+  function buildVoiceControls() {
+    var vs = germanVoices();
+    document.querySelectorAll('[data-tts-voice]').forEach(function (h) {
+      h.innerHTML = '';
+      if (vs.length < 2) { h.style.display = 'none'; return; }
+      h.style.display = '';
+      var label = document.createElement('span'); label.textContent = 'Voce';
+      var sel = document.createElement('select'); sel.className = 'tts-voice-select';
+      vs.forEach(function (v) {
+        var o = document.createElement('option');
+        o.value = v.name; o.textContent = v.name + genderLabel(v);
+        if (voice && v.name === voice.name) o.selected = true;
+        sel.appendChild(o);
+      });
+      h.appendChild(label); h.appendChild(sel);
+    });
+  }
+
+  // --- Persistenza: aggiorna URL e link interni --------------------------
+  function query() {
+    var p = new URLSearchParams();
+    p.set('rate', String(rate));
+    if (wantVoice) p.set('voice', wantVoice);
+    return '?' + p.toString();
+  }
+  function syncLinks() {
+    var q = query();
+    document.querySelectorAll('a[href]').forEach(function (a) {
+      var href = a.getAttribute('href');
+      if (!href || /^(https?:|mailto:|#)/.test(href)) return;
+      var base = href.split('#')[0].split('?')[0];
+      if (!/\.html$/.test(base)) return;
+      var hash = href.indexOf('#') >= 0 ? href.slice(href.indexOf('#')) : '';
+      a.setAttribute('href', base + q + hash);
+    });
+  }
+  function syncState() {
+    try { history.replaceState(null, '', location.pathname + query() + location.hash); } catch (e) {}
+    syncLinks();
+  }
+
+  function setRate(r) { rate = r; markRate(); syncState(); }
+  function setVoice(name) { wantVoice = name; pickVoice(); buildVoiceControls(); syncState(); }
+
+  // --- Eventi ------------------------------------------------------------
   document.addEventListener('click', function (e) {
     var sp = e.target.closest('[data-tts-speed] [data-rate]');
     if (sp) { e.preventDefault(); setRate(parseFloat(sp.getAttribute('data-rate'))); return; }
@@ -422,7 +485,20 @@ footer.site-footer {
       try { speakMany(JSON.parse(all.getAttribute('data-speak-all'))); } catch (err) {}
     }
   });
+  document.addEventListener('change', function (e) {
+    var s = e.target.closest('.tts-voice-select');
+    if (s) setVoice(s.value);
+  });
   window.addEventListener('beforeunload', function () { synth.cancel(); });
+
+  // --- Avvio -------------------------------------------------------------
+  pickVoice();
+  buildSpeedControls();
+  buildVoiceControls();
+  syncLinks();
+  if (typeof synth.onvoiceschanged !== 'undefined') {
+    synth.onvoiceschanged = function () { pickVoice(); buildVoiceControls(); syncLinks(); };
+  }
 })();
 </script>
 
