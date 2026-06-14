@@ -144,6 +144,19 @@ a { color: inherit; }
 .btn.ghost { background: var(--card); color: var(--ink); border-color: var(--line); }
 .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
 
+/* Pulsanti audio (Web Speech API) */
+.speak {
+  cursor: pointer; font: inherit; line-height: 1.2; vertical-align: middle;
+  border: 1px solid var(--line); background: var(--card); color: var(--accent);
+  border-radius: 8px; padding: 2px 8px; font-size: 0.9rem; margin-left: 6px;
+  transition: background .12s ease, border-color .12s ease;
+}
+.speak:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--card)); }
+.speak.speaking { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-speak-all { font-size: 0.88rem; padding: 7px 13px; }
+.ex-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.day-card .card-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
 /* Content blocks (pagina giorno) */
 .section { padding: 8px 0; }
 .section h2 { font-size: 1.5rem; margin: 28px 0 12px; display: flex; align-items: center; gap: 10px; }
@@ -286,11 +299,14 @@ footer.site-footer {
     </div>
 
     <div class="section">
-      <h2><span class="num">2</span> Esempi</h2>
+      <div class="ex-head">
+        <h2><span class="num">2</span> Esempi</h2>
+        <button type="button" class="btn ghost btn-speak-all" data-speak-all="[&quot;Ich sehe den Mann.&quot;, &quot;Ich sehe die Frau / das Kind.&quot;]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta tutto</button>
+      </div>
       <table class="ex">
-  <caption>Leggi a voce alta: prima il tedesco, poi l'italiano.</caption>
+  <caption>Leggi a voce alta: prima il tedesco, poi l'italiano. Tocca 🔊 per ascoltare.</caption>
   <thead><tr><th>Tedesco</th><th>Italiano</th></tr></thead>
-  <tbody><tr><td class="de">Ich sehe den Mann.</td><td class="it">Vedo l&#x27;uomo. (der→den)</td></tr><tr><td class="de">Ich sehe die Frau / das Kind.</td><td class="it">Vedo la donna / il bambino.</td></tr></tbody>
+  <tbody><tr><td class="de"><span>Ich sehe den Mann.</span> <button type="button" class="speak" data-speak="Ich sehe den Mann." aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">Vedo l&#x27;uomo. (der→den)</td></tr><tr><td class="de"><span>Ich sehe die Frau / das Kind.</span> <button type="button" class="speak" data-speak="Ich sehe die Frau / das Kind." aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">Vedo la donna / il bambino.</td></tr></tbody>
 </table>
     </div>
 
@@ -312,7 +328,7 @@ footer.site-footer {
           <div class="solution">
             <p><b>Esempio svolto:</b></p>
             <table class="ex" style="margin-top:8px;">
-              <tbody><tr><td class="de">Ich sehe den Mann.</td><td class="it">Vedo l&#x27;uomo. (der→den)</td></tr><tr><td class="de">Ich sehe die Frau / das Kind.</td><td class="it">Vedo la donna / il bambino.</td></tr></tbody>
+              <tbody><tr><td class="de"><span>Ich sehe den Mann.</span> <button type="button" class="speak" data-speak="Ich sehe den Mann." aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">Vedo l&#x27;uomo. (der→den)</td></tr><tr><td class="de"><span>Ich sehe die Frau / das Kind.</span> <button type="button" class="speak" data-speak="Ich sehe die Frau / das Kind." aria-label="Ascolta in tedesco" title="Ascolta">🔊</button></td><td class="it">Vedo la donna / il bambino.</td></tr></tbody>
             </table>
             <p style="margin-top:10px;color:var(--muted);">Confronta con quello che hai prodotto: l'importante è che articoli, ordine delle parole e desinenze corrispondano agli esempi.</p>
           </div>
@@ -330,5 +346,58 @@ footer.site-footer {
 <footer class="site-footer">
   <div class="wrap">Tedesco in 60 giorni · Giorno 22 di 60 · <a href="tedesco-fase-3.html">Fase 3</a> · <a href="index.html">Indice</a></div>
 </footer>
+
+<script>
+(function () {
+  var synth = window.speechSynthesis;
+  var speakButtons = document.querySelectorAll('[data-speak], [data-speak-all]');
+  if (!synth) { speakButtons.forEach(function (b) { b.remove(); }); return; }
+
+  var voice = null;
+  function pickVoice() {
+    var vs = synth.getVoices() || [];
+    voice = vs.filter(function (v) { return v.lang === 'de-DE'; })[0]
+         || vs.filter(function (v) { return v.lang && v.lang.indexOf('de') === 0; })[0]
+         || null;
+  }
+  pickVoice();
+  if (typeof synth.onvoiceschanged !== 'undefined') synth.onvoiceschanged = pickVoice;
+
+  function clearSpeaking() {
+    document.querySelectorAll('.speak.speaking').forEach(function (b) { b.classList.remove('speaking'); });
+  }
+  function utter(text) {
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'de-DE'; u.rate = 0.9;
+    if (voice) u.voice = voice;
+    return u;
+  }
+  function speakOne(text, btn) {
+    synth.cancel(); clearSpeaking();
+    var u = utter(text);
+    if (btn) {
+      btn.classList.add('speaking');
+      u.onend = u.onerror = function () { btn.classList.remove('speaking'); };
+    }
+    synth.speak(u);
+  }
+  function speakMany(list) {
+    synth.cancel(); clearSpeaking();
+    list.forEach(function (t) { synth.speak(utter(t)); });
+  }
+
+  document.addEventListener('click', function (e) {
+    var one = e.target.closest('[data-speak]');
+    if (one) { e.preventDefault(); speakOne(one.getAttribute('data-speak'), one); return; }
+    var all = e.target.closest('[data-speak-all]');
+    if (all) {
+      e.preventDefault();
+      try { speakMany(JSON.parse(all.getAttribute('data-speak-all'))); } catch (err) {}
+    }
+  });
+  window.addEventListener('beforeunload', function () { synth.cancel(); });
+})();
+</script>
+
 </body>
 </html>

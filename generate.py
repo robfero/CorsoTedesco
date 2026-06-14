@@ -53,6 +53,77 @@ def phase_of_day(n):
     return (n - 1) // 10 + 1
 
 
+# --- Audio: sintesi vocale tedesca (Web Speech API) ------------------------
+# Nessuna dipendenza, nessun file: il browser legge il testo in tedesco.
+# I pulsanti spariscono se il browser non supporta la sintesi vocale.
+TTS_SCRIPT = """
+<script>
+(function () {
+  var synth = window.speechSynthesis;
+  var speakButtons = document.querySelectorAll('[data-speak], [data-speak-all]');
+  if (!synth) { speakButtons.forEach(function (b) { b.remove(); }); return; }
+
+  var voice = null;
+  function pickVoice() {
+    var vs = synth.getVoices() || [];
+    voice = vs.filter(function (v) { return v.lang === 'de-DE'; })[0]
+         || vs.filter(function (v) { return v.lang && v.lang.indexOf('de') === 0; })[0]
+         || null;
+  }
+  pickVoice();
+  if (typeof synth.onvoiceschanged !== 'undefined') synth.onvoiceschanged = pickVoice;
+
+  function clearSpeaking() {
+    document.querySelectorAll('.speak.speaking').forEach(function (b) { b.classList.remove('speaking'); });
+  }
+  function utter(text) {
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'de-DE'; u.rate = 0.9;
+    if (voice) u.voice = voice;
+    return u;
+  }
+  function speakOne(text, btn) {
+    synth.cancel(); clearSpeaking();
+    var u = utter(text);
+    if (btn) {
+      btn.classList.add('speaking');
+      u.onend = u.onerror = function () { btn.classList.remove('speaking'); };
+    }
+    synth.speak(u);
+  }
+  function speakMany(list) {
+    synth.cancel(); clearSpeaking();
+    list.forEach(function (t) { synth.speak(utter(t)); });
+  }
+
+  document.addEventListener('click', function (e) {
+    var one = e.target.closest('[data-speak]');
+    if (one) { e.preventDefault(); speakOne(one.getAttribute('data-speak'), one); return; }
+    var all = e.target.closest('[data-speak-all]');
+    if (all) {
+      e.preventDefault();
+      try { speakMany(JSON.parse(all.getAttribute('data-speak-all'))); } catch (err) {}
+    }
+  });
+  window.addEventListener('beforeunload', function () { synth.cancel(); });
+})();
+</script>
+"""
+
+
+def speak_btn(text):
+    """Pulsante 🔊 per leggere una singola frase tedesca."""
+    return (f'<button type="button" class="speak" data-speak="{esc(text)}"'
+            f' aria-label="Ascolta in tedesco" title="Ascolta">🔊</button>')
+
+
+def speak_all_btn(de_list, label="🔊 Ascolta tutto"):
+    """Pulsante che legge in sequenza più frasi tedesche."""
+    data = esc(json.dumps(de_list, ensure_ascii=False))
+    return (f'<button type="button" class="btn ghost btn-speak-all" data-speak-all="{data}"'
+            f' aria-label="Ascolta gli esempi in tedesco">{label}</button>')
+
+
 # --- CSS condiviso ---------------------------------------------------------
 def base_css(accent="#D7263D"):
     p = PALETTE
@@ -191,6 +262,19 @@ a {{ color: inherit; }}
 .btn:hover {{ opacity: 0.92; transform: translateY(-1px); }}
 .btn.ghost {{ background: var(--card); color: var(--ink); border-color: var(--line); }}
 .btn.ghost:hover {{ border-color: var(--accent); color: var(--accent); }}
+
+/* Pulsanti audio (Web Speech API) */
+.speak {{
+  cursor: pointer; font: inherit; line-height: 1.2; vertical-align: middle;
+  border: 1px solid var(--line); background: var(--card); color: var(--accent);
+  border-radius: 8px; padding: 2px 8px; font-size: 0.9rem; margin-left: 6px;
+  transition: background .12s ease, border-color .12s ease;
+}}
+.speak:hover {{ border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--card)); }}
+.speak.speaking {{ background: var(--accent); color: #fff; border-color: var(--accent); }}
+.btn-speak-all {{ font-size: 0.88rem; padding: 7px 13px; }}
+.ex-head {{ display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }}
+.day-card .card-actions {{ display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }}
 
 /* Content blocks (pagina giorno) */
 .section {{ padding: 8px 0; }}
@@ -334,6 +418,8 @@ def render_phase(course, phase):
     # Cards dei giorni
     cards = []
     for d in phase["days"]:
+        de_list = [de for de, _ in d["ex"]]
+        listen = speak_all_btn(de_list, label="🔊 Ascolta") if de_list else ""
         cards.append(f"""
       <article class="day-card">
         <div class="marker" aria-hidden="true">{d['n']}</div>
@@ -341,7 +427,10 @@ def render_phase(course, phase):
           <h3>Giorno {d['n']} · {esc(d['title'])}</h3>
           <p class="lead">{esc(d['lead'])}</p>
           <p class="task"><b>Compito:</b> {esc(d['task'])}</p>
-          <a class="btn" href="{day_file(d['n'])}">Apri la lezione →</a>
+          <div class="card-actions">
+            <a class="btn" href="{day_file(d['n'])}">Apri la lezione →</a>
+            {listen}
+          </div>
         </div>
       </article>""")
     cards_html = "".join(cards)
@@ -496,6 +585,7 @@ function escapeHtml(s) {{
 document.getElementById('reset').addEventListener('click', buildQuiz);
 buildQuiz();
 </script>
+{TTS_SCRIPT}
 </body>
 </html>
 """
@@ -522,13 +612,16 @@ def render_day(course, day, phase):
     pnum = phase["num"]
     accent = phase["accent"]
 
-    # Esempi → tabella
+    # Esempi → tabella (con pulsanti audio per ogni frase tedesca)
     rows = "".join(
-        f'<tr><td class="de">{esc(de)}</td><td class="it">{esc(it)}</td></tr>'
+        f'<tr><td class="de"><span>{esc(de)}</span> {speak_btn(de)}</td>'
+        f'<td class="it">{esc(it)}</td></tr>'
         for de, it in day["ex"]
     )
+    de_list = [de for de, _ in day["ex"]]
+    listen_all = speak_all_btn(de_list)
     ex_table = f"""<table class="ex">
-  <caption>Leggi a voce alta: prima il tedesco, poi l'italiano.</caption>
+  <caption>Leggi a voce alta: prima il tedesco, poi l'italiano. Tocca 🔊 per ascoltare.</caption>
   <thead><tr><th>Tedesco</th><th>Italiano</th></tr></thead>
   <tbody>{rows}</tbody>
 </table>"""
@@ -590,7 +683,10 @@ def render_day(course, day, phase):
     </div>
 
     <div class="section">
-      <h2><span class="num">2</span> Esempi</h2>
+      <div class="ex-head">
+        <h2><span class="num">2</span> Esempi</h2>
+        {listen_all}
+      </div>
       {ex_table}
     </div>
 
@@ -630,6 +726,7 @@ def render_day(course, day, phase):
 <footer class="site-footer">
   <div class="wrap">{esc(course['title'])} · Giorno {n} di 60 · <a href="{phase_file(pnum)}">Fase {pnum}</a> · <a href="index.html">Indice</a></div>
 </footer>
+{TTS_SCRIPT}
 </body>
 </html>
 """

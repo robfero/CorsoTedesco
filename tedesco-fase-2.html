@@ -144,6 +144,19 @@ a { color: inherit; }
 .btn.ghost { background: var(--card); color: var(--ink); border-color: var(--line); }
 .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
 
+/* Pulsanti audio (Web Speech API) */
+.speak {
+  cursor: pointer; font: inherit; line-height: 1.2; vertical-align: middle;
+  border: 1px solid var(--line); background: var(--card); color: var(--accent);
+  border-radius: 8px; padding: 2px 8px; font-size: 0.9rem; margin-left: 6px;
+  transition: background .12s ease, border-color .12s ease;
+}
+.speak:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--card)); }
+.speak.speaking { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-speak-all { font-size: 0.88rem; padding: 7px 13px; }
+.ex-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.day-card .card-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
 /* Content blocks (pagina giorno) */
 .section { padding: 8px 0; }
 .section h2 { font-size: 1.5rem; margin: 28px 0 12px; display: flex; align-items: center; gap: 10px; }
@@ -285,7 +298,10 @@ footer.site-footer {
           <h3>Giorno 11 · I pronomi personali</h3>
           <p class="lead">Chi compie l&#x27;azione.</p>
           <p class="task"><b>Compito:</b> Ripeti i 6 pronomi a memoria, in ordine.</p>
-          <a class="btn" href="tedesco-giorno-11.html">Apri la lezione →</a>
+          <div class="card-actions">
+            <a class="btn" href="tedesco-giorno-11.html">Apri la lezione →</a>
+            <button type="button" class="btn ghost btn-speak-all" data-speak-all="[&quot;ich, du, er, sie, es&quot;, &quot;wir, ihr, sie&quot;]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta</button>
+          </div>
         </div>
       </article>
       <article class="day-card">
@@ -294,7 +310,10 @@ footer.site-footer {
           <h3>Giorno 12 · Verbi regolari al presente</h3>
           <p class="lead">Togli -en dall&#x27;infinito e aggiungi le desinenze.</p>
           <p class="task"><b>Compito:</b> Coniuga «wohnen» a tutte e 6 le persone.</p>
-          <a class="btn" href="tedesco-giorno-12.html">Apri la lezione →</a>
+          <div class="card-actions">
+            <a class="btn" href="tedesco-giorno-12.html">Apri la lezione →</a>
+            <button type="button" class="btn ghost btn-speak-all" data-speak-all="[&quot;Ich lerne Deutsch.&quot;, &quot;Wir spielen Fußball.&quot;]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta</button>
+          </div>
         </div>
       </article>
       <article class="day-card">
@@ -303,7 +322,10 @@ footer.site-footer {
           <h3>Giorno 13 · sein (essere)</h3>
           <p class="lead">Irregolare ma indispensabile.</p>
           <p class="task"><b>Compito:</b> Fai 3 frasi con «sein».</p>
-          <a class="btn" href="tedesco-giorno-13.html">Apri la lezione →</a>
+          <div class="card-actions">
+            <a class="btn" href="tedesco-giorno-13.html">Apri la lezione →</a>
+            <button type="button" class="btn ghost btn-speak-all" data-speak-all="[&quot;Ich bin müde.&quot;, &quot;Sie ist Lehrerin.&quot;]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta</button>
+          </div>
         </div>
       </article>
       <article class="day-card">
@@ -312,7 +334,10 @@ footer.site-footer {
           <h3>Giorno 14 · haben (avere)</h3>
           <p class="lead">L&#x27;altro verbo che userai ovunque.</p>
           <p class="task"><b>Compito:</b> Fai 3 frasi con «haben».</p>
-          <a class="btn" href="tedesco-giorno-14.html">Apri la lezione →</a>
+          <div class="card-actions">
+            <a class="btn" href="tedesco-giorno-14.html">Apri la lezione →</a>
+            <button type="button" class="btn ghost btn-speak-all" data-speak-all="[&quot;Ich habe Zeit.&quot;, &quot;Hast du ein Auto?&quot;]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta</button>
+          </div>
         </div>
       </article>
       <article class="day-card">
@@ -321,7 +346,10 @@ footer.site-footer {
           <h3>Giorno 15 · Il verbo in seconda posizione</h3>
           <p class="lead">La regola d&#x27;oro della frase tedesca.</p>
           <p class="task"><b>Compito:</b> Sposta «heute» all&#x27;inizio e correggi l&#x27;ordine.</p>
-          <a class="btn" href="tedesco-giorno-15.html">Apri la lezione →</a>
+          <div class="card-actions">
+            <a class="btn" href="tedesco-giorno-15.html">Apri la lezione →</a>
+            <button type="button" class="btn ghost btn-speak-all" data-speak-all="[&quot;Ich lerne heute Deutsch.&quot;, &quot;Heute lerne ich Deutsch.&quot;]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta</button>
+          </div>
         </div>
       </article>
       <article class="day-card">
@@ -330,7 +358,10 @@ footer.site-footer {
           <h3>Giorno 16 · Fare domande</h3>
           <p class="lead">Due modi: sì/no e domande aperte.</p>
           <p class="task"><b>Compito:</b> Scrivi una domanda sì/no e una con «Wo».</p>
-          <a class="btn" href="tedesco-giorno-16.html">Apri la lezione →</a>
+          <div class="card-actions">
+            <a class="btn" href="tedesco-giorno-16.html">Apri la lezione →</a>
+            <button type="button" class="btn ghost btn-speak-all" data-speak-all="[&quot;Wo wohnst du?&quot;, &quot;Spielst du Tennis?&quot;]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta</button>
+          </div>
         </div>
       </article>
       <article class="day-card">
@@ -339,7 +370,10 @@ footer.site-footer {
           <h3>Giorno 17 · Vocabolario: famiglia</h3>
           <p class="lead">Le persone più vicine.</p>
           <p class="task"><b>Compito:</b> Descrivi la tua famiglia con 2 frasi.</p>
-          <a class="btn" href="tedesco-giorno-17.html">Apri la lezione →</a>
+          <div class="card-actions">
+            <a class="btn" href="tedesco-giorno-17.html">Apri la lezione →</a>
+            <button type="button" class="btn ghost btn-speak-all" data-speak-all="[&quot;die Mutter / der Vater&quot;, &quot;die Schwester / der Bruder&quot;, &quot;die Eltern / die Kinder&quot;]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta</button>
+          </div>
         </div>
       </article>
       <article class="day-card">
@@ -348,7 +382,10 @@ footer.site-footer {
           <h3>Giorno 18 · Vocabolario: cibo e bevande</h3>
           <p class="lead">Per bar e supermercato.</p>
           <p class="task"><b>Compito:</b> Ordina mentalmente una colazione in tedesco.</p>
-          <a class="btn" href="tedesco-giorno-18.html">Apri la lezione →</a>
+          <div class="card-actions">
+            <a class="btn" href="tedesco-giorno-18.html">Apri la lezione →</a>
+            <button type="button" class="btn ghost btn-speak-all" data-speak-all="[&quot;das Wasser / der Kaffee&quot;, &quot;das Brot / der Käse&quot;, &quot;der Apfel / das Bier&quot;]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta</button>
+          </div>
         </div>
       </article>
       <article class="day-card">
@@ -357,7 +394,10 @@ footer.site-footer {
           <h3>Giorno 19 · Vocabolario: casa e lavoro</h3>
           <p class="lead">Gli ambienti di ogni giorno.</p>
           <p class="task"><b>Compito:</b> Dì dove lavori e con cosa.</p>
-          <a class="btn" href="tedesco-giorno-19.html">Apri la lezione →</a>
+          <div class="card-actions">
+            <a class="btn" href="tedesco-giorno-19.html">Apri la lezione →</a>
+            <button type="button" class="btn ghost btn-speak-all" data-speak-all="[&quot;das Haus / die Wohnung&quot;, &quot;die Arbeit / das Büro&quot;, &quot;der Computer / das Handy&quot;]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta</button>
+          </div>
         </div>
       </article>
       <article class="day-card">
@@ -366,7 +406,10 @@ footer.site-footer {
           <h3>Giorno 20 · Checkpoint Fase 2</h3>
           <p class="lead">Frasi e domande quotidiane senza esitare.</p>
           <p class="task"><b>Compito:</b> Componi 5 frasi e poi fai il quiz.</p>
-          <a class="btn" href="tedesco-giorno-20.html">Apri la lezione →</a>
+          <div class="card-actions">
+            <a class="btn" href="tedesco-giorno-20.html">Apri la lezione →</a>
+            <button type="button" class="btn ghost btn-speak-all" data-speak-all="[&quot;Ich habe eine Schwester. Sie wohnt in Rom. Wo wohnst du?&quot;]" aria-label="Ascolta gli esempi in tedesco">🔊 Ascolta</button>
+          </div>
         </div>
       </article></div>
   </section>
@@ -462,5 +505,58 @@ function escapeHtml(s) {
 document.getElementById('reset').addEventListener('click', buildQuiz);
 buildQuiz();
 </script>
+
+<script>
+(function () {
+  var synth = window.speechSynthesis;
+  var speakButtons = document.querySelectorAll('[data-speak], [data-speak-all]');
+  if (!synth) { speakButtons.forEach(function (b) { b.remove(); }); return; }
+
+  var voice = null;
+  function pickVoice() {
+    var vs = synth.getVoices() || [];
+    voice = vs.filter(function (v) { return v.lang === 'de-DE'; })[0]
+         || vs.filter(function (v) { return v.lang && v.lang.indexOf('de') === 0; })[0]
+         || null;
+  }
+  pickVoice();
+  if (typeof synth.onvoiceschanged !== 'undefined') synth.onvoiceschanged = pickVoice;
+
+  function clearSpeaking() {
+    document.querySelectorAll('.speak.speaking').forEach(function (b) { b.classList.remove('speaking'); });
+  }
+  function utter(text) {
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'de-DE'; u.rate = 0.9;
+    if (voice) u.voice = voice;
+    return u;
+  }
+  function speakOne(text, btn) {
+    synth.cancel(); clearSpeaking();
+    var u = utter(text);
+    if (btn) {
+      btn.classList.add('speaking');
+      u.onend = u.onerror = function () { btn.classList.remove('speaking'); };
+    }
+    synth.speak(u);
+  }
+  function speakMany(list) {
+    synth.cancel(); clearSpeaking();
+    list.forEach(function (t) { synth.speak(utter(t)); });
+  }
+
+  document.addEventListener('click', function (e) {
+    var one = e.target.closest('[data-speak]');
+    if (one) { e.preventDefault(); speakOne(one.getAttribute('data-speak'), one); return; }
+    var all = e.target.closest('[data-speak-all]');
+    if (all) {
+      e.preventDefault();
+      try { speakMany(JSON.parse(all.getAttribute('data-speak-all'))); } catch (err) {}
+    }
+  });
+  window.addEventListener('beforeunload', function () { synth.cancel(); });
+})();
+</script>
+
 </body>
 </html>
