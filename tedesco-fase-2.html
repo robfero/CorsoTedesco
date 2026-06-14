@@ -155,7 +155,13 @@ a { color: inherit; }
 .speak.speaking { background: var(--accent); color: #fff; border-color: var(--accent); }
 .btn-speak-all { font-size: 0.88rem; padding: 7px 13px; }
 .ex-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.ex-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .day-card .card-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.tts-speed { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--muted); }
+.tts-speed .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.tts-speed button { font: inherit; cursor: pointer; border: 0; background: var(--card); color: var(--ink); padding: 5px 13px; }
+.tts-speed button + button { border-left: 1px solid var(--line); }
+.tts-speed button.active { background: var(--accent); color: #fff; }
 
 /* Content blocks (pagina giorno) */
 .section { padding: 8px 0; }
@@ -290,7 +296,10 @@ footer.site-footer {
   </section>
 
   <section class="wrap">
-    <h2 class="display" style="font-size:1.5rem;margin:8px 0 4px;">I 10 giorni della fase</h2>
+    <div class="ex-head">
+      <h2 class="display" style="font-size:1.5rem;margin:8px 0 4px;">I 10 giorni della fase</h2>
+      <span class="tts-speed" data-tts-speed></span>
+    </div>
     <div class="day-list">
       <article class="day-card">
         <div class="marker" aria-hidden="true">11</div>
@@ -509,9 +518,10 @@ buildQuiz();
 <script>
 (function () {
   var synth = window.speechSynthesis;
-  var speakButtons = document.querySelectorAll('[data-speak], [data-speak-all]');
-  if (!synth) { speakButtons.forEach(function (b) { b.remove(); }); return; }
+  var audioEls = document.querySelectorAll('[data-speak], [data-speak-all], [data-tts-speed]');
+  if (!synth) { audioEls.forEach(function (b) { b.remove(); }); return; }
 
+  var rate = 0.95;            // velocità "Normale"
   var voice = null;
   function pickVoice() {
     var vs = synth.getVoices() || [];
@@ -527,10 +537,25 @@ buildQuiz();
   }
   function utter(text) {
     var u = new SpeechSynthesisUtterance(text);
-    u.lang = 'de-DE'; u.rate = 0.9;
+    u.lang = 'de-DE'; u.rate = rate;
     if (voice) u.voice = voice;
     return u;
   }
+
+  function buildSpeedControls() {
+    document.querySelectorAll('[data-tts-speed]').forEach(function (h) {
+      h.innerHTML = '<span>Velocità</span><span class="seg">'
+        + '<button type="button" data-rate="0.95" class="active">Normale</button>'
+        + '<button type="button" data-rate="0.6">Lenta 🐢</button></span>';
+    });
+  }
+  function setRate(r) {
+    rate = r;
+    document.querySelectorAll('[data-tts-speed] button').forEach(function (b) {
+      b.classList.toggle('active', parseFloat(b.getAttribute('data-rate')) === r);
+    });
+  }
+  buildSpeedControls();
   function speakOne(text, btn) {
     synth.cancel(); clearSpeaking();
     var u = utter(text);
@@ -546,6 +571,8 @@ buildQuiz();
   }
 
   document.addEventListener('click', function (e) {
+    var sp = e.target.closest('[data-tts-speed] [data-rate]');
+    if (sp) { e.preventDefault(); setRate(parseFloat(sp.getAttribute('data-rate'))); return; }
     var one = e.target.closest('[data-speak]');
     if (one) { e.preventDefault(); speakOne(one.getAttribute('data-speak'), one); return; }
     var all = e.target.closest('[data-speak-all]');
