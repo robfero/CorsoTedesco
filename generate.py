@@ -98,6 +98,19 @@ TTS_SCRIPT = """
     if (voice) u.voice = voice;
     return u;
   }
+  // iOS/Safari: la sintesi può auto-mettersi in pausa → forziamo il resume.
+  function kick() { try { if (synth.paused) synth.resume(); } catch (e) {} }
+  // iOS richiede un primo speak dentro un gesto utente per "sbloccare" l'audio.
+  var primed = false;
+  function prime() {
+    if (primed) return; primed = true;
+    try {
+      var u = new SpeechSynthesisUtterance(' ');
+      u.volume = 0; u.lang = 'de-DE';
+      synth.speak(u); kick();
+    } catch (e) {}
+  }
+
   function speakOne(text, btn) {
     synth.cancel(); clearSpeaking();
     var u = utter(text);
@@ -105,11 +118,18 @@ TTS_SCRIPT = """
       btn.classList.add('speaking');
       u.onend = u.onerror = function () { btn.classList.remove('speaking'); };
     }
-    synth.speak(u);
+    synth.speak(u); kick();
   }
+  // Riproduzione in catena (più affidabile di una coda lunga su iOS).
   function speakMany(list) {
     synth.cancel(); clearSpeaking();
-    list.forEach(function (t) { synth.speak(utter(t)); });
+    var i = 0;
+    (function next() {
+      if (i >= list.length) return;
+      var u = utter(list[i++]);
+      u.onend = next;
+      synth.speak(u); kick();
+    })();
   }
 
   // --- Controlli UI ------------------------------------------------------
@@ -186,6 +206,11 @@ TTS_SCRIPT = """
     var s = e.target.closest('.tts-voice-select');
     if (s) setVoice(s.value);
   });
+  // Sblocco audio iOS al primo gesto, e resume periodico contro l'auto-pausa.
+  ['touchstart', 'pointerdown'].forEach(function (ev) {
+    document.addEventListener(ev, prime, { once: true, passive: true });
+  });
+  setInterval(function () { if (synth.speaking) kick(); }, 5000);
   window.addEventListener('beforeunload', function () { synth.cancel(); });
 
   // --- Avvio -------------------------------------------------------------
